@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Table(name="products")
 @Entity
@@ -41,5 +42,4 @@ public class Product extends BaseEntity{
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;
-
 }

@@ -3,6 +3,8 @@ package com.project.petService.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Table(name="businessType")
 @Entity
 @Getter

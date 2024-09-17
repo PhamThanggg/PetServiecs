@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Booking {
+public class Booking extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bookingId")
@@ -33,8 +33,7 @@ public class Booking {
     @JoinColumn(name = "petId")
     Pet pet;
 
-    @OneToMany
-    @JoinColumn(name = "serviceId")
+    @ManyToMany
     Set<Service> services;
 
     @ManyToOne(fetch = FetchType.LAZY)

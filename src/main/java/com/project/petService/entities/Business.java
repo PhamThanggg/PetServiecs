@@ -3,6 +3,8 @@ package com.project.petService.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Table(name="business")
 @Entity
 @Getter
@@ -24,9 +26,11 @@ public class Business extends BaseEntity{
 
     String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "businessTypeId")
-    BusinessType businessType;
+    @ManyToMany()
+    Set<BusinessType> businessType;
+
+    @ManyToMany
+    Set<Product> products;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "areaId")

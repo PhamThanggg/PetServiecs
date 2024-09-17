@@ -3,6 +3,8 @@ package com.project.petService.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Table(name="services")
 @Entity
 @Getter
@@ -17,4 +19,5 @@ public class Service {
     Long id;
 
     String name;
+
 }
