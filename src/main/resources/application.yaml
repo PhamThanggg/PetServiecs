@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL driver class name
   jpa:
     hibernate:
-      ddl-auto: update  # Hibernate schema auto-update strategy
+      ddl-auto: none  # Hibernate schema auto-update strategy
     show-sql: true  # Show SQL queries in console
     properties:
       hibernate:
