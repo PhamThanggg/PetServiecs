@@ -26,11 +26,8 @@ public class Business extends BaseEntity{
 
     String email;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     Set<BusinessType> businessType;
-
-    @ManyToMany
-    Set<Product> products;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "areaId")

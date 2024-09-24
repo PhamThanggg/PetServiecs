@@ -40,6 +40,9 @@ public class Product extends BaseEntity{
     @JoinColumn(name = "categoryId")
     Category category;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    Set<Business> businesses;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails;
 }

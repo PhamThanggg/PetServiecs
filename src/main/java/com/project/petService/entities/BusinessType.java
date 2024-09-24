@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BusinessType extends BaseEntity{
+public class BusinessType{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "businessTypeId")
