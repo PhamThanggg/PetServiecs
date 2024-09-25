@@ -3,6 +3,8 @@ package com.project.petService.services.areas;
 import com.project.petService.dtos.requests.areas.AreaRequest;
 import com.project.petService.dtos.response.areas.AreaResponse;
 import com.project.petService.entities.Area;
+import com.project.petService.exceptions.AppException;
+import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.AreaMapper;
 import com.project.petService.repositories.AreaRepository;
 import lombok.AccessLevel;
@@ -22,7 +24,11 @@ public class AreaService implements IAreaService{
     @Override
     public AreaResponse createArea(AreaRequest request) {
         if(areaRepository.existsByName(request.getName())){
+<<<<<<< HEAD
             throw new RuntimeException("Area exists");
+=======
+            throw new AppException(ErrorCode.AREA_EXISTS);
+>>>>>>> af39e897a0bb852392796e3aa64546039f24d0ff
         }
 
         Area area = areaMapper.toArea(request);
@@ -37,11 +43,11 @@ public class AreaService implements IAreaService{
     @Override
     public AreaResponse updateArea(AreaRequest request, Long id) {
         Area area = areaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Area not exists"));
+                .orElseThrow(() -> new AppException(ErrorCode.AREA_NOT_EXISTS));
 
         if(!area.getName().equals(request.getName())){
             if(areaRepository.existsByName(request.getName())){
-                throw  new RuntimeException("Area exists");
+                throw new AppException(ErrorCode.AREA_EXISTS);
             }
         }
 
