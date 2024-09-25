@@ -1,7 +1,5 @@
 package com.project.petService.dtos.response.business;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.Set;

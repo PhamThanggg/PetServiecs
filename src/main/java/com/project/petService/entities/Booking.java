@@ -34,7 +34,7 @@ public class Booking extends BaseEntity{
     Pet pet;
 
     @ManyToMany
-    Set<Service> services;
+    Set<Services> services;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")

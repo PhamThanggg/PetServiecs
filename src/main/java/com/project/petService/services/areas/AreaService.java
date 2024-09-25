@@ -18,10 +18,11 @@ import java.util.List;
 public class AreaService implements IAreaService{
     AreaRepository areaRepository;
     AreaMapper areaMapper;
+
     @Override
     public AreaResponse createArea(AreaRequest request) {
         if(areaRepository.existsByName(request.getName())){
-            throw  new RuntimeException("Area exists");
+            throw new RuntimeException("Area exists");
         }
 
         Area area = areaMapper.toArea(request);

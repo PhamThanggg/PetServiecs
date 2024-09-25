@@ -14,15 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/business")
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class BusinessController {
     BusinessService businessService;
 
     @PostMapping("")
-    public ApiResponse<BusinessResponse> create(
-            @RequestBody @Valid BusinessRequest request
-    ){
+    public ApiResponse<BusinessResponse> create(@RequestBody @Valid BusinessRequest request) {
         return ApiResponse.<BusinessResponse>builder()
                 .message("Tạo thành công")
                 .result(businessService.createBusiness(request))
@@ -30,28 +28,24 @@ public class BusinessController {
     }
 
     @GetMapping("")
-    public ApiResponse<List<BusinessResponse>> getAllBusiness(
-    ){
+    public ApiResponse<List<BusinessResponse>> getAllBusiness() {
         return ApiResponse.<List<BusinessResponse>>builder()
                 .result(businessService.getBusinessALl())
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<BusinessResponse> updateBusinessById(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid BusinessRequest request
-    ){
+    public ApiResponse<BusinessResponse> updateBusinessById(@PathVariable("id") Long id,
+                                                            @RequestBody @Valid BusinessRequest request) {
         return ApiResponse.<BusinessResponse>builder()
                 .result(businessService.updateBusiness(request, id))
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<String> deleteBusinessById(@PathVariable("id") Long id){
+    public ApiResponse<String> deleteBusinessById(@PathVariable("id") Long id) {
         businessService.deleteBusiness(id);
         return ApiResponse.<String>builder()
-                .result("Xóa thành công")
-                .build();
+                .result("Xóa thành công").build();
     }
 }

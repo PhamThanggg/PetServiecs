@@ -28,6 +28,7 @@ public class BusinessService implements IBusinessService{
     BusinessTypeRepository businessTypeRepository;
     AreaRepository areaRepository;
     BusinessMapper businessMapper;
+
     @Override
     public BusinessResponse createBusiness(@RequestBody @Valid BusinessRequest request) {
         if(businessRepository.existsByName(request.getName())){
