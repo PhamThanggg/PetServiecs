@@ -17,10 +17,8 @@ public enum ErrorCode {
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
 
-<<<<<<< HEAD
     ROOM_NOT_EXITS(1008, "Phòng không tồn tại", HttpStatus.BAD_REQUEST),
 
-=======
     // Dùng chung all
     ADDRESS_NOT_BLANK(1009, "Địa chỉ không được để trống", HttpStatus.BAD_REQUEST),
     ADDRESS_INVALID(1010, "Địa chỉ nằm trong khoảng từ {min} đến {max} ký tự", HttpStatus.BAD_REQUEST),
@@ -50,7 +48,6 @@ public enum ErrorCode {
     BUSINESS_NAME_NOT_EXISTS(1203, "Cửa hàng kinh doanh không tồn tại!", HttpStatus.BAD_REQUEST),
     BUSINESS_TYPE(1204, "Không tồn tại loại hình kinh doanh với ID = ", HttpStatus.BAD_REQUEST),
     //=================== BUSINESS END =======================
->>>>>>> af39e897a0bb852392796e3aa64546039f24d0ff
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
