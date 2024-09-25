@@ -5,6 +5,8 @@ import com.project.petService.dtos.response.business.BusinessResponse;
 import com.project.petService.entities.Area;
 import com.project.petService.entities.Business;
 import com.project.petService.entities.BusinessType;
+import com.project.petService.exceptions.AppException;
+import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.BusinessMapper;
 import com.project.petService.repositories.AreaRepository;
 import com.project.petService.repositories.BusinessRepository;
@@ -13,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -21,6 +24,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BusinessService implements IBusinessService{
@@ -31,11 +35,11 @@ public class BusinessService implements IBusinessService{
     @Override
     public BusinessResponse createBusiness(@RequestBody @Valid BusinessRequest request) {
         if(businessRepository.existsByName(request.getName())){
-            throw new RuntimeException("Tên kinh doanh tồn tại");
+            throw new AppException(ErrorCode.BUSINESS_NAME_EXISTS);
         }
 
         Area area= areaRepository.findById(request.getAreaId())
-                .orElseThrow(() -> new RuntimeException("khu vực bạn chọn không tồn tại"));
+                .orElseThrow(() -> new AppException(ErrorCode.AREA_NOT_EXISTS));
 
         Set<BusinessType> listBusinessType = businessTypeRepository.findByIdIn(request.getBusinessTypeId());
         Set<Long> foundIds = listBusinessType.stream().map(BusinessType::getId).collect(Collectors.toSet());
@@ -45,7 +49,8 @@ public class BusinessService implements IBusinessService{
             String errorMessage = missingGenreId.stream()
                     .map(String::valueOf)
                     .collect(Collectors.joining(", "));
-            throw new RuntimeException("Loại hình kinh doanh với id = " + errorMessage + " không tồn tại!");
+
+            throw new AppException(ErrorCode.BUSINESS_TYPE, errorMessage);
         }
 
         Business business = businessMapper.toBusiness(request);
@@ -62,16 +67,16 @@ public class BusinessService implements IBusinessService{
     @Override
     public BusinessResponse updateBusiness(@RequestBody @Valid BusinessRequest request, Long id) {
         Business business = businessRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cửa hàng kinh doanh này không tồn tại"));
+                .orElseThrow(() -> new AppException(ErrorCode.BUSINESS_NAME_NOT_EXISTS));
 
         if(!request.getName().equals(business.getName())){
             if(businessRepository.existsByName(request.getName())){
-                throw new RuntimeException("Tên kinh doanh tồn tại");
+                throw new AppException(ErrorCode.BUSINESS_NAME_EXISTS);
             }
         }
 
         Area area= areaRepository.findById(request.getAreaId())
-                .orElseThrow(() -> new RuntimeException("khu vực bạn chọn không tồn tại"));
+                .orElseThrow(() -> new AppException(ErrorCode.AREA_NOT_EXISTS));
 
         Set<BusinessType> listBusinessType = businessTypeRepository.findByIdIn(request.getBusinessTypeId());
         Set<Long> foundIds = listBusinessType.stream().map(BusinessType::getId).collect(Collectors.toSet());
