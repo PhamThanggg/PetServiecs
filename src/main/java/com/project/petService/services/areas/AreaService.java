@@ -24,11 +24,7 @@ public class AreaService implements IAreaService{
     @Override
     public AreaResponse createArea(AreaRequest request) {
         if(areaRepository.existsByName(request.getName())){
-<<<<<<< HEAD
-            throw new RuntimeException("Area exists");
-=======
             throw new AppException(ErrorCode.AREA_EXISTS);
->>>>>>> af39e897a0bb852392796e3aa64546039f24d0ff
         }
 
         Area area = areaMapper.toArea(request);

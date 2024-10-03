@@ -3,8 +3,6 @@ package com.project.petService.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Table(name="products")
@@ -26,23 +24,17 @@ public class Product extends BaseEntity{
 
     Double price;
 
-    Float star;
-
-    int quantity;
+    @Builder.Default
+    Float star = 0.0f;
 
     String brand;
 
-    String imageUrl;
-
     String status;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    Set<ProductImage> productImages;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryId")
     Category category;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    Set<Business> businesses;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    List<OrderDetail> orderDetails;
 }
