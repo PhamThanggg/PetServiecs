@@ -1,4 +1,4 @@
-package com.project.petService.dtos.response.products;
+package com.project.petService.dtos.requests.products;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductImageResponse {
-    Long id;
-
+public class ProductImageRequest {
     String imageUrl;
 
     boolean isPrimary;

@@ -8,10 +8,13 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("${api.prefix}/product")
@@ -26,21 +29,21 @@ public class ProductController {
             ) throws IOException {
         ProductResponse productResponses = productService.createProduct(request);
         return ApiResponse.<ProductResponse>builder()
-                .message("Create product successfully")
+                .message("Tạo sản phẩm thành công")
                 .result(productResponses)
                 .build();
     }
 
-//    @PostMapping(value = "upload_images/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ApiResponse<List<ProductImageResponse>> uploadImages(
-//            @PathVariable("id") Long productId,
-//            @ModelAttribute List<MultipartFile> files
-//    ) throws IOException {
-//        return ApiResponse.<List<ProductImageResponse>>builder()
-//                .message("Create product successfully")
-//                .result(productService.createProductImage(productId, files))
-//                .build();
-//    }
+    @PostMapping(value = "upload_images/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ProductResponse> uploadImages(
+            @PathVariable("id") Long productId,
+            @ModelAttribute List<MultipartFile> files
+    ) throws IOException {
+        return ApiResponse.<ProductResponse>builder()
+                .message("Upload ảnh thành công")
+                .result(productService.createProductImage(productId, files))
+                .build();
+    }
 
 
     @GetMapping("")
@@ -95,9 +98,16 @@ public class ProductController {
     public ApiResponse<String> deleteProductById(@PathVariable("id") Long id){
         productService.deleteProduct(id);
         return ApiResponse.<String>builder()
-                .result("Gender has been deleted")
+                .result("Xóa sản phẩm thành công")
                 .build();
     }
 
+    @DeleteMapping("deleteImage/{id}")
+    public ApiResponse<String> deleteImageById(@PathVariable("id") Set<String> ids) throws IOException {
+        productService.deleteMovieImage(ids);
+        return ApiResponse.<String>builder()
+                .result("Xóa ảnh thành công")
+                .build();
+    }
 
 }
