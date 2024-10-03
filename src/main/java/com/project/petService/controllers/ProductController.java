@@ -56,7 +56,7 @@ public class ProductController {
                 .getContent();
         int totalCinema = productResponses.size();
         return ApiResponse.<List<ProductResponse>>builder()
-                .message("Total genre: " + totalCinema)
+                .message("Tổng số sản phẩm: " + totalCinema)
                 .result(productResponses)
                 .build();
     }
