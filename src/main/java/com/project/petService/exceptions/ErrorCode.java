@@ -46,6 +46,8 @@ public enum ErrorCode {
     TOTAL_NOT_NULL(2001, "Tổng tiền không được để trống", HttpStatus.BAD_REQUEST),
     TOTAL_INVALID(2002, "Tổng tiền phải lớn hơn hoặc băng 0", HttpStatus.BAD_REQUEST),
 
+
+
     //=================== USER BEGIN =====================
     USER_EXISTS(2602, "Người dùng đã tồn tại", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTS(2602, "Người dung không tồn tại", HttpStatus.BAD_REQUEST),
@@ -73,9 +75,15 @@ public enum ErrorCode {
     BUSINESS_AREA_NOT_NULL(1201, "Bạn chưa chọn khu vực!", HttpStatus.BAD_REQUEST),
     BUSINESS_AREA_INVALID(1202, "ID khu vực phải >= {value}", HttpStatus.BAD_REQUEST),
 
+    BUSINESS_NOT_BLANK(1201, "Bạn chưa chọn cửa hàng kinh doanh", HttpStatus.BAD_REQUEST),
+    BUSINESS_INVALID(1202, "ID phải >= {value}", HttpStatus.BAD_REQUEST),
+
     BUSINESS_NAME_EXISTS(1203, "Tên kinh doanh đã tồn tại!", HttpStatus.BAD_REQUEST),
     BUSINESS_NAME_NOT_EXISTS(1203, "Cửa hàng kinh doanh không tồn tại!", HttpStatus.BAD_REQUEST),
     BUSINESS_TYPE(1204, "Không tồn tại loại hình kinh doanh với ID = ", HttpStatus.BAD_REQUEST),
+
+    BUSINESS_EXISTS(1151, "Cửa hàng kinh doanh đã tồn tại", HttpStatus.BAD_REQUEST),
+    BUSINESS_NOT_EXISTS(1151, "Cửa hàng kinh doanh không đã tồn tại", HttpStatus.BAD_REQUEST),
     //=================== BUSINESS END =======================
 
 
@@ -107,6 +115,12 @@ public enum ErrorCode {
     CART_EXISTS(1151, "Sản phẩm đã tồn tại trong giỏ hàng", HttpStatus.BAD_REQUEST),
     CART_NOT_EXISTS(1151, "Sản phẩm không tồn tại trong giỏ hàng", HttpStatus.BAD_REQUEST),
     //=================== CART END =======================
+
+
+    //=================== INVENTORY BEGIN =======================
+    INVENTORY_EXISTS(1151, "Sản phẩm đã tồn tại ", HttpStatus.BAD_REQUEST),
+    INVENTORY_NOT_EXISTS(1151, "Sản phẩm không tồn ", HttpStatus.BAD_REQUEST),
+    //=================== INVENTORY END =======================
 
     ;
 

@@ -3,7 +3,7 @@ package com.project.petService.controllers;
 import com.project.petService.dtos.requests.business.BusinessRequest;
 import com.project.petService.dtos.response.ApiResponse;
 import com.project.petService.dtos.response.business.BusinessResponse;
-import com.project.petService.services.Business.BusinessService;
+import com.project.petService.services.business.BusinessService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

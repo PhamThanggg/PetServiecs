@@ -1,4 +1,4 @@
-package com.project.petService.services.Business;
+package com.project.petService.services.business;
 
 import com.project.petService.dtos.requests.business.BusinessRequest;
 import com.project.petService.dtos.response.business.BusinessResponse;
