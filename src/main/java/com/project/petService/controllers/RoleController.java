@@ -1,9 +1,7 @@
 package com.project.petService.controllers;
 
-import com.project.petService.dtos.requests.users.PermissionUpdateRequest;
 import com.project.petService.dtos.requests.users.RoleRequest;
 import com.project.petService.dtos.response.ApiResponse;
-import com.project.petService.dtos.response.users.PermissionResponse;
 import com.project.petService.dtos.response.users.RoleResponse;
 import com.project.petService.services.user.RoleService;
 import lombok.AccessLevel;

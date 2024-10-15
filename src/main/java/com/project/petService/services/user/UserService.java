@@ -64,14 +64,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
     public Page<UserResponse> getAllUsers(int page, int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "id"));
         return userRepository.findAll(pageRequest).map(userMapper::toUserResponse);
     }
 
     @Override
-//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
     public Page<UserResponse> searchUsers(String search, int page, int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "id"));
         Page<UserResponse> pageUser;
@@ -84,13 +84,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
     public Long getCountUsers() {
         return userRepository.count();
     }
 
     @Override
-//    @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
+    @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED)
@@ -101,7 +101,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
     public UserResponse updateRole(String id, Set<Long> roleIds) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED)
@@ -124,7 +124,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
     public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }

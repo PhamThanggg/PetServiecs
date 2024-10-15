@@ -22,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +43,7 @@ public class ProductService implements IProductService {
     CloudService cloudService;
     private int MAXIMUM_IMAGES_PER_MOVIE = 5;
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public ProductResponse createProduct(ProductRequest request) {
         if(productRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.PRODUCT_EXISTS);
@@ -78,6 +81,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public ProductResponse createProductImage(Long productId, List<MultipartFile> files) throws IOException {
         int size = productImageRepository.findByProductId(productId).size();
         if(size >= MAXIMUM_IMAGES_PER_MOVIE){
@@ -111,6 +115,7 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public void deleteMovieImage(Set<String> productId) throws IOException {
         Set<ProductImage> movieImages = productImageRepository.findByIdIn(productId);
         if(movieImages.isEmpty())
@@ -130,6 +135,7 @@ public class ProductService implements IProductService {
 
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public ProductResponse updateProduct(ProductRequest request, Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXISTS));
@@ -150,6 +156,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }

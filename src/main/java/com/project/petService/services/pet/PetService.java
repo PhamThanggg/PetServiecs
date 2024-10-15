@@ -8,6 +8,7 @@ import com.project.petService.repositories.PetsRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class PetService implements IPetService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PET')")
     public List<PetResponse> getAllPet() {
         return petRepository.findAll().stream().map(petMapper::toPetResponse).toList();
     }
@@ -40,6 +42,7 @@ public class PetService implements IPetService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PET')")
     public void deletePet(Long id) {
         petRepository.deleteById(id);
     }

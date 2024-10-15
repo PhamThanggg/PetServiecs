@@ -10,6 +10,7 @@ import com.project.petService.repositories.AreaRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class AreaService implements IAreaService{
     AreaMapper areaMapper;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public AreaResponse createArea(AreaRequest request) {
         if(areaRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.AREA_EXISTS);
@@ -37,6 +39,7 @@ public class AreaService implements IAreaService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public AreaResponse updateArea(AreaRequest request, Long id) {
         Area area = areaRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.AREA_NOT_EXISTS));
@@ -52,6 +55,7 @@ public class AreaService implements IAreaService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteArea(Long id) {
         areaRepository.deleteById(id);
     }

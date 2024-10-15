@@ -8,6 +8,7 @@ import com.project.petService.repositories.RoomRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RoomService implements IRoomService {
     RoomMapper roomMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_HOTEL')")
     public RoomResponse createRoom(RoomRequest request) {
         Room room = roomMapper.toRoom(request);
         return roomMapper.toRoomResponse(roomRepository.save(room));
@@ -31,6 +33,7 @@ public class RoomService implements IRoomService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_HOTEL')")
     public RoomResponse updateRoom(RoomRequest request, Long id) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not exists"));
@@ -40,6 +43,7 @@ public class RoomService implements IRoomService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_HOTEL')")
     public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }

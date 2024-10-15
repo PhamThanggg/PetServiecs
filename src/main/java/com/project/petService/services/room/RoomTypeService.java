@@ -8,6 +8,7 @@ import com.project.petService.repositories.RoomTypeRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RoomTypeService implements IRoomTypeService {
     RoomTypeMapper roomMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_HOTEL')")
     public RoomTypeResponse createRoom(RoomTypeRequest request) {
         RoomType room = roomMapper.toRoom(request);
         return roomMapper.toRoomResponse(roomRepository.save(room));
@@ -31,6 +33,7 @@ public class RoomTypeService implements IRoomTypeService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_HOTEL')")
     public RoomTypeResponse updateRoom(RoomTypeRequest request, Long id) {
         RoomType room = roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room type not exists"));

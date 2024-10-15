@@ -20,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -37,6 +39,7 @@ public class OrderService implements IOrderService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('MANAGE_ORDER')")
     public OrderResponse createOrder(@RequestBody @Valid OrderRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
@@ -49,6 +52,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    @PostAuthorize("hasAuthority('MANAGE_ORDER') or returnObject.userId.toString() == authentication.principal.getClaimAsString('id')")
     public OrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.INVENTORY_NOT_EXISTS));
@@ -57,6 +61,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_ORDER')")
     public Page<OrderResponse> getOrderALl(int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
 
@@ -64,6 +69,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_ORDER')")
     public Page<OrderResponse> search(String name, int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
 //        return orderRepository.findByProductNameContaining(name, pageable).map(orderMapper::toOrderResponse);
@@ -72,12 +78,14 @@ public class OrderService implements IOrderService {
 
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_ORDER')")
     public OrderResponse updateOrder(@RequestBody @Valid OrderRequest request, Long id) {
 
         return null;
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_ORDER')")
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }

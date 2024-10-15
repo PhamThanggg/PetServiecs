@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
     boolean existsByUserIdAndProductId(String userId, Long productId);
 
-    Page<ShoppingCart> findByProductNameContaining(String name, Pageable pageable);
+    Page<ShoppingCart> findByUserIdAndProductNameContaining(String userId, String name, Pageable pageable);
+
+    Page<ShoppingCart> findByUserId(String userId, Pageable pageable);
 }

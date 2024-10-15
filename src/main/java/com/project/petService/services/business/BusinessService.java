@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,6 +35,7 @@ public class BusinessService implements IBusinessService{
     BusinessMapper businessMapper;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public BusinessResponse createBusiness(@RequestBody @Valid BusinessRequest request) {
         if(businessRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.BUSINESS_NAME_EXISTS);
@@ -66,6 +68,7 @@ public class BusinessService implements IBusinessService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public BusinessResponse updateBusiness(@RequestBody @Valid BusinessRequest request, Long id) {
         Business business = businessRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BUSINESS_NAME_NOT_EXISTS));
@@ -97,6 +100,7 @@ public class BusinessService implements IBusinessService{
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteBusiness(Long id) {
         businessRepository.deleteById(id);
     }

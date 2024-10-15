@@ -8,6 +8,7 @@ import com.project.petService.repositories.ServiceRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class SerService implements IService {
     ServiceMapper serviceMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_SERVICE')")
     public ServiceResponse create(ServiceRequest request) {
         Services services = serviceMapper.toService(request);
         return serviceMapper.toServiceResponse(serviceRepository.save(services));
@@ -31,6 +33,7 @@ public class SerService implements IService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_SERVICE')")
     public ServiceResponse update(ServiceRequest request, Long id) {
         Services services = serviceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Service not exists"));
@@ -40,6 +43,7 @@ public class SerService implements IService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_SERVICE')")
     public void delete(Long id) {
         serviceRepository.deleteById(id);
     }

@@ -10,6 +10,7 @@ import com.project.petService.repositories.CategoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CategoryService implements ICategoryService {
     CategoryMapper categoryMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public CategoryResponse createCategory(CategoryRequest request) {
         if(categoryRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.CATEGORY_EXISTS);
@@ -37,6 +39,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public CategoryResponse updateCategory(CategoryRequest request, Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTS));
@@ -52,6 +55,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }

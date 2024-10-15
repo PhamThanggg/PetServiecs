@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,6 +35,7 @@ public class InventoryService implements IInventoryService {
     InventoryMapper inventoryMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_INVENTORY')")
     public InventoryResponse createInventory(@RequestBody @Valid InventoryRequest request) {
         if(inventoryRepository.existsByProductIdAndBusinessId(request.getProductId(), request.getBusinessId())){
             throw new AppException(ErrorCode.INVENTORY_EXISTS);
@@ -74,6 +76,7 @@ public class InventoryService implements IInventoryService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_INVENTORY')")
     public InventoryResponse updateInventory(@RequestBody @Valid InventoryRequest request, Long id) {
         Inventory inventory = inventoryRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BUSINESS_NAME_NOT_EXISTS));
@@ -96,6 +99,7 @@ public class InventoryService implements IInventoryService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGE_INVENTORY')")
     public void deleteInventory(Long id) {
         inventoryRepository.deleteById(id);
     }

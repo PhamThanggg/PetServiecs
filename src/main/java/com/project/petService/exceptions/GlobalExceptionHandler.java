@@ -4,6 +4,7 @@ import com.project.petService.dtos.response.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,19 +17,17 @@ public class GlobalExceptionHandler {
 
     private static final String MIN_ATTRIBUTE = "min";
     private static final String MAX_ATTRIBUTE = "max";
-
     private static final String MIN_VALUE = "value";
 
-    @ExceptionHandler(value = Exception.class)
-    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception){
-        log.error("Exception: ", exception);
-        ApiResponse apiResponse = new ApiResponse();
-
-        apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
-
-        return ResponseEntity.badRequest().body(apiResponse);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception){
+//        ApiResponse apiResponse = new ApiResponse();
+//
+//        apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
+//        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+//
+//        return ResponseEntity.badRequest().body(apiResponse);
+//    }
 
     @ExceptionHandler(value = AppException.class)
     ResponseEntity<ApiResponse> handlingAppException(AppException exception){
@@ -48,17 +47,17 @@ public class GlobalExceptionHandler {
                 .body(apiResponse);
     }
 
-//    @ExceptionHandler(value = AccessDeniedException.class)
-//    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception){
-//        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
-//
-//        return ResponseEntity.status(errorCode.getStatusCode()).body(
-//                ApiResponse.builder()
-//                        .code(errorCode.getCode())
-//                        .message(errorCode.getMessage())
-//                        .build()
-//        );
-//    }
+    @ExceptionHandler(value = org.springframework.security.access.AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
+                ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build()
+        );
+    }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception) {

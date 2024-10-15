@@ -2,6 +2,7 @@ package com.project.petService.services.shoppingCart;
 
 import com.project.petService.dtos.requests.shoppingCart.ShoppingCartRequest;
 import com.project.petService.dtos.response.shoppingCart.ShoppingCartResponse;
+import com.project.petService.dtos.response.users.UserResponse;
 import com.project.petService.entities.Product;
 import com.project.petService.entities.ShoppingCart;
 import com.project.petService.entities.User;
@@ -11,6 +12,7 @@ import com.project.petService.mappers.ShoppingCartMapper;
 import com.project.petService.repositories.ProductRepository;
 import com.project.petService.repositories.ShoppingCartRepository;
 import com.project.petService.repositories.UserRepository;
+import com.project.petService.services.user.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +31,7 @@ public class ShoppingCartService implements IShoppingCartService {
     ProductRepository productRepository;
     UserRepository userRepository;
     ShoppingCartMapper shoppingCartMapper;
+    UserService userService;
     @Override
     public ShoppingCartResponse createShoppingCart(ShoppingCartRequest request) {
         User user = userRepository.findById(request.getUserId())
@@ -51,6 +55,7 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
+    @PostAuthorize("returnObject.userId.toString() == authentication.principal.getClaimAsString('id')")
     public ShoppingCartResponse findById(Long id) {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXISTS));
@@ -60,9 +65,11 @@ public class ShoppingCartService implements IShoppingCartService {
 
     @Override
     public Page<ShoppingCartResponse> getShoppingCartALl(int page, int limit) {
+        UserResponse userResponse = userService.getMyInfo();
+
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
 
-        return shoppingCartRepository.findAll(pageable).map(shoppingCartMapper::toShoppingCartResponse);
+        return shoppingCartRepository.findByUserId(userResponse.getId(), pageable).map(shoppingCartMapper::toShoppingCartResponse);
     }
 
     @Override
@@ -70,11 +77,13 @@ public class ShoppingCartService implements IShoppingCartService {
             String name,
             int page, int limit
     ) {
+        UserResponse userResponse = userService.getMyInfo();
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
-        return shoppingCartRepository.findByProductNameContaining(name, pageable).map(shoppingCartMapper::toShoppingCartResponse);
+        return shoppingCartRepository.findByUserIdAndProductNameContaining(userResponse.getId(), name, pageable).map(shoppingCartMapper::toShoppingCartResponse);
     }
 
     @Override
+    @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
     public ShoppingCartResponse updateShoppingCart(ShoppingCartRequest request, Long id) {
         ShoppingCart shoppingCart = shoppingCartRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTS));
@@ -101,6 +110,7 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
+    @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
     public void deleteShoppingCart(Long id) {
         shoppingCartRepository.deleteById(id);
     }

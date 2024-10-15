@@ -13,6 +13,7 @@ import java.util.Set;
 @Builder
 public class UserResponse {
     private String id;
+    private String username;
     private String fullName;
     private String image;
     private String gender;
