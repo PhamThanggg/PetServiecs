@@ -1,28 +1,32 @@
 package com.project.petService.exceptions;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
 @Getter
+@AllArgsConstructor
 public enum ErrorCode {
 
-    UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
-    INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
-    USER_EXISTED(1002, "User existed", HttpStatus.BAD_REQUEST),
-    USERNAME_INVALID(1003, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
-    INVALID_PASSWORD(1004, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
-    USER_NOT_EXISTED(1005, "User not existed", HttpStatus.NOT_FOUND),
-    UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
-    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    UNCATEGORIZED_EXCEPTION(9999, "Lỗi chưa được phân loại", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_KEY(1001, "Lỗi khóa không hợp lệ", HttpStatus.BAD_REQUEST),
+    USER_EXISTED(1002, "Người dùng đã tồn tại", HttpStatus.BAD_REQUEST),
+    USERNAME_INVALID(1003, "Tên người dùng phải có ít nhất {min} ký tự", HttpStatus.BAD_REQUEST),
+    INVALID_PASSWORD(1004, "Mật khẩu phải có ít nhất {min} ký tự", HttpStatus.BAD_REQUEST),
+    USER_NOT_EXISTED(1005, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
+    UNAUTHENTICATED(1006, "Bạn chưa đăng nhập", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(1007, "Bạn không có quyền truy cập", HttpStatus.FORBIDDEN),
+    INVALID_DOB(1008, "Tuổi của bạn phải ít nhất là {min}", HttpStatus.BAD_REQUEST),
+
 
     ROOM_NOT_EXITS(1008, "Phòng không tồn tại", HttpStatus.BAD_REQUEST),
 
 
     // Dùng chung all
     PHONE_FORMAT(1011, "Số điện thoại không đúng định dạng", HttpStatus.BAD_REQUEST),
-    PHONE_INVALID(1012, "Số điện thoại phải là {min} ký tự", HttpStatus.BAD_REQUEST),
+    PHONE_VALID(1608, "Phone must be between {min} and {max} characters", HttpStatus.BAD_REQUEST),
+    PHONE_INVALID(1012, "Số điện thoại không được để trống", HttpStatus.BAD_REQUEST),
     EMAIL_FORMAT(1607, "Email không đúng định dạng", HttpStatus.BAD_REQUEST),
     EMAIL_NOT_BLANK(1013, "Email không được để trống", HttpStatus.BAD_REQUEST),
     EMAIL_INVALID(1014, "Tên kinh doanh phải nằm trong khoảng từ {min} đến {max} ký tự", HttpStatus.BAD_REQUEST),
@@ -51,13 +55,16 @@ public enum ErrorCode {
     //=================== USER BEGIN =====================
     USER_EXISTS(2602, "Người dùng đã tồn tại", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTS(2602, "Người dung không tồn tại", HttpStatus.BAD_REQUEST),
+    GENDER_NOT_BLANK(2501, "Giới tính không được để trống.", HttpStatus.BAD_REQUEST),
 
     USER_NOT_NULL(2501, "Bạn chưa chọn user", HttpStatus.BAD_REQUEST),
     USER_INVALID(2502, "ID người dùng phải lớn hơn hoặc bằng {value}", HttpStatus.BAD_REQUEST),
 
-    PASSWORD_NOT_BLANK(2301, "Bạn chưa nhập ật khẩu", HttpStatus.BAD_REQUEST),
+    PASSWORD_NOT_BLANK(2301, "Bạn chưa nhập mật khẩu", HttpStatus.BAD_REQUEST),
     REPASSWORD_NOT_BLANK(2301, "Bạn chưa nhập lại mật khẩu", HttpStatus.BAD_REQUEST),
-    PASSWORD_INVALID(2302, "Mật khẩu phải từ {min} đến {max} ký tự", HttpStatus.BAD_REQUEST),
+    PASSWORD_INVALID(2302, "Mật khẩu phải từ {min} ký tự", HttpStatus.BAD_REQUEST),
+    USERNAME_FORMAT(1607, "Tên đăng nhập chỉ được chứa chữ và số.", HttpStatus.BAD_REQUEST),
+    USERNAME_NOT_BLANK(1013, "Tên đăng nhập không được để trống", HttpStatus.BAD_REQUEST),
     //=================== USER END =======================
 
     //=================== AREA BEGIN =======================
@@ -122,13 +129,31 @@ public enum ErrorCode {
     INVENTORY_NOT_EXISTS(1151, "Sản phẩm không tồn ", HttpStatus.BAD_REQUEST),
     //=================== INVENTORY END =======================
 
+    //=================== PERMISSION BEGIN =====================
+    PERMISSION_NOT_BLANK(2501, "Quyền là bắt buộc", HttpStatus.BAD_REQUEST),
+    PERMISSION_INVALID(2502, "ID quyền phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    PERMISSION_EXISTS(2602, "Tên quyền đã tồn tại", HttpStatus.BAD_REQUEST),
+    PERMISSION_NOT_EXISTS(2602, "Quyền không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== PERMISSION END =======================
+
+    //=================== ROLE BEGIN =====================
+    ROLE_NOT_BLANK(2501, "Vai trò là bắt buộc", HttpStatus.BAD_REQUEST),
+    ROLE_INVALID(2502, "ID vai trò phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    ROLE_EXISTS(2602, "Tên vai trò đã tồn tại", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_EXISTS(2602, "Vai trò không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ROLE END =======================
+
+    //=================== ORDER_DETAIL BEGIN =====================
+    ORDER_DETAIL_NOT_BLANK(2501, "Chi tiết đặt hàng là bắt buộc", HttpStatus.BAD_REQUEST),
+    ORDER_DETAIL_INVALID(2502, "ID đặt hàng phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    ORDER_DETAIL_NOT_EXISTS(2602, "Chi tiết đặt hàng không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ORDER_DETAIL END =======================
+
     ;
 
-    ErrorCode(int code, String message, HttpStatusCode statusCode) {
-        this.code = code;
-        this.message = message;
-        this.statusCode = statusCode;
-    }
 
     private final int code;
     private final String message;

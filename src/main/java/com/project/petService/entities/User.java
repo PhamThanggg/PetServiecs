@@ -33,6 +33,11 @@ public class User extends BaseEntity {
 
     private String gender;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "roleId")
+    )
     Set<Role> roles;
 }

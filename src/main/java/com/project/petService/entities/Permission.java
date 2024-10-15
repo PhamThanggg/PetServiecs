@@ -1,7 +1,6 @@
 package com.project.petService.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,6 +13,10 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Permission {
     @Id
+    @Column(name = "permissionId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
     String name;
 
     String description;

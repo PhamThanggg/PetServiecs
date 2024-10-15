@@ -1,8 +1,6 @@
 package com.project.petService.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,10 +15,19 @@ import java.util.Set;
 @Entity
 public class Role {
     @Id
+    @Column(name = "roleId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
     String name;
 
     String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "roleId"),
+            inverseJoinColumns = @JoinColumn(name = "permissionId")
+    )
     Set<Permission> permissions;
 }

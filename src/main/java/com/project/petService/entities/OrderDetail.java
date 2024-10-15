@@ -3,6 +3,8 @@ package com.project.petService.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Table(name="orderDetail")
 @Entity
 @Getter
@@ -16,13 +18,11 @@ public class OrderDetail {
     @Column(name = "orderDetailId")
     Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
-    Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
-    Product product;
+    Set<Inventory> inventories;
 
     int quantity;
+
+    Double price;
 }

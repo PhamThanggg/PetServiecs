@@ -50,7 +50,6 @@ public class ProductService implements IProductService {
 
         Product product = productMapper.toProduct(request);
         product.setCategory(category);
-
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
