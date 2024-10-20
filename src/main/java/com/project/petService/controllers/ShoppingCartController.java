@@ -2,12 +2,14 @@ package com.project.petService.controllers;
 
 import com.project.petService.dtos.requests.shoppingCart.ShoppingCartRequest;
 import com.project.petService.dtos.response.ApiResponse;
+import com.project.petService.dtos.response.PageResponse;
 import com.project.petService.dtos.response.shoppingCart.ShoppingCartResponse;
 import com.project.petService.services.shoppingCart.ShoppingCartService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -33,31 +35,37 @@ public class ShoppingCartController {
 
 
     @GetMapping("")
-    public ApiResponse<List<ShoppingCartResponse>> getAllShoppingCart(
+    public PageResponse<List<ShoppingCartResponse>> getAllShoppingCart(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){
-        List<ShoppingCartResponse> productResponses = productService
-                .getShoppingCartALl(page, limit)
-                .getContent();
-        int totalCinema = productResponses.size();
-        return ApiResponse.<List<ShoppingCartResponse>>builder()
-                .message("Tổng số sản phẩm: " + totalCinema)
-                .result(productResponses)
+        Page<ShoppingCartResponse> productResponses = productService
+                .getShoppingCartALl(page, limit);
+
+        return PageResponse.<List<ShoppingCartResponse>>builder()
+                .currentPage(productResponses.getNumber())
+                .totalPages(productResponses.getTotalPages())
+                .totalElements(productResponses.getTotalElements())
+                .pageSize(productResponses.getSize())
+                .result(productResponses.getContent())
                 .build();
     }
 
     @GetMapping("/search")
-    public ApiResponse<List<ShoppingCartResponse>> searchShoppingCart(
+    public PageResponse<List<ShoppingCartResponse>> searchShoppingCart(
             @RequestParam(value = "name") String name,
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){
-        List<ShoppingCartResponse> productResponse = productService
-                .searchShoppingByName(name, page, limit)
-                .getContent();
-        return ApiResponse.<List<ShoppingCartResponse>> builder()
-                .result(productResponse)
+        Page<ShoppingCartResponse> productResponse = productService
+                .searchShoppingByName(name, page, limit);
+
+        return PageResponse.<List<ShoppingCartResponse>> builder()
+                .currentPage(productResponse.getNumber())
+                .totalPages(productResponse.getTotalPages())
+                .totalElements(productResponse.getTotalElements())
+                .pageSize(productResponse.getSize())
+                .result(productResponse.getContent())
                 .build();
     }
 

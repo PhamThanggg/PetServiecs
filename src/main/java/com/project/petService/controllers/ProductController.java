@@ -2,12 +2,14 @@ package com.project.petService.controllers;
 
 import com.project.petService.dtos.requests.products.ProductRequest;
 import com.project.petService.dtos.response.ApiResponse;
+import com.project.petService.dtos.response.PageResponse;
 import com.project.petService.dtos.response.products.ProductResponse;
 import com.project.petService.services.products.ProductService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,33 +49,38 @@ public class ProductController {
 
 
     @GetMapping("")
-    public ApiResponse<List<ProductResponse>> getAllProduct(
+    public PageResponse<List<ProductResponse>> getAllProduct(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){
-        List<ProductResponse> productResponses = productService
-                .getProductALl(page, limit)
-                .getContent();
-        int totalCinema = productResponses.size();
-        return ApiResponse.<List<ProductResponse>>builder()
-                .message("Tổng số sản phẩm: " + totalCinema)
-                .result(productResponses)
+        Page<ProductResponse> productResponses = productService
+                .getProductALl(page, limit);
+        return PageResponse.<List<ProductResponse>>builder()
+                .currentPage(productResponses.getNumber())
+                .totalPages(productResponses.getTotalPages())
+                .totalElements(productResponses.getTotalElements())
+                .pageSize(productResponses.getSize())
+                .result(productResponses.getContent())
                 .build();
     }
 
     @GetMapping("/search")
-    public ApiResponse<List<ProductResponse>> searchProduct(
+    public PageResponse<List<ProductResponse>> searchProduct(
             @RequestParam(value = "nameProduct", required = false) String nameProduct,
             @RequestParam(value = "categoryId", required = false) Long categoryId,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){
-        List<ProductResponse> productResponse = productService
-                .searchProductOrCategoryOrPrice(nameProduct, categoryId, price,  page, limit)
-                .getContent();
-        return ApiResponse.<List<ProductResponse>> builder()
-                .result(productResponse)
+        Page<ProductResponse> productResponse = productService
+                .searchProductOrCategoryOrPrice(nameProduct, categoryId, price,  page, limit);
+
+        return PageResponse.<List<ProductResponse>>builder()
+                .currentPage(productResponse.getNumber())
+                .totalPages(productResponse.getTotalPages())
+                .totalElements(productResponse.getTotalElements())
+                .pageSize(productResponse.getSize())
+                .result(productResponse.getContent())
                 .build();
     }
 

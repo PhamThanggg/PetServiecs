@@ -9,10 +9,7 @@ import com.project.petService.dtos.response.users.IntrospectResponse;
 import com.project.petService.services.user.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
@@ -27,6 +24,14 @@ public class AuthenticationController {
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(authenticationService.authentication(request))
                 .build();
+    }
+
+    @PostMapping("/oauth2/google")
+    ApiResponse<AuthenticationResponse> outboundAuthenticate(
+            @RequestParam("code") String code
+    ){
+        var result = authenticationService.outboundAuthenticate(code);
+        return ApiResponse.<AuthenticationResponse>builder().result(result).build();
     }
 
     @PostMapping("/introspect")

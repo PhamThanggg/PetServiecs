@@ -39,7 +39,9 @@ public class SecurityConfig {
     private SecurityService securityService;
 
     private final String[] PUBLIC_GET_ENDPOINTS = {
-            "/api/v1/area", "/api/v1/cinema"
+            "/api/v1/area/**", "/api/v1/business/**", "/api/v1/category/**",
+            "/api/v1/inventory/**", "/api/v1/product/**", "/api/v1/room/**",
+            "api/v1/room_type/**" ,  "api/v1/service/**"
     };
 
     @Autowired

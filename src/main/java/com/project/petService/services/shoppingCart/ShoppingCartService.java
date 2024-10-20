@@ -46,6 +46,7 @@ public class ShoppingCartService implements IShoppingCartService {
 
         Double totalPrice = product.getPrice() * request.getQuantity();
 
+
         ShoppingCart shoppingCart = shoppingCartMapper.toShoppingCart(request);
         shoppingCart.setUser(user);
         shoppingCart.setProduct(product);

@@ -1,6 +1,7 @@
 package com.project.petService.dtos.response.shoppingCart;
 
 
+import com.project.petService.dtos.response.products.ProductCartResponse;
 import lombok.*;
 
 
@@ -16,5 +17,5 @@ public class ShoppingCartResponse {
 
     String userId;
 
-    Long productId;
+    ProductCartResponse product;
 }

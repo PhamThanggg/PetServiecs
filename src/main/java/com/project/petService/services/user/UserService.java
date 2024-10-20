@@ -3,6 +3,7 @@ package com.project.petService.services.user;
 import com.project.petService.constant.PredefinedRole;
 import com.project.petService.dtos.requests.users.UserCreationRequest;
 import com.project.petService.dtos.requests.users.UserUpdateRequest;
+import com.project.petService.dtos.response.users.UserInfo;
 import com.project.petService.dtos.response.users.UserResponse;
 import com.project.petService.entities.Role;
 import com.project.petService.entities.User;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -127,5 +129,22 @@ public class UserService implements IUserService {
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('MANAGE_ACCOUNT')")
     public void deleteUser(String userId) {
         userRepository.deleteById(userId);
+    }
+
+    public User registerUser(UserInfo userGG) {
+        Optional<User> user = userRepository.findByEmail(userGG.getEmail());
+        if (user.isEmpty()) {
+            User userData = User.builder()
+                    .email(userGG.getEmail())
+                    .fullName(userGG.getName())
+                    .image(userGG.getPicture())
+                    .build();
+            return userRepository.save(userData);
+        } else {
+            User existingUser = user.get();
+            existingUser.setFullName(userGG.getName());
+            existingUser.setImage(userGG.getPicture());
+            return userRepository.save(existingUser);
+        }
     }
 }

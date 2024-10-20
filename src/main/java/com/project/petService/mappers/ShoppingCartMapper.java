@@ -13,7 +13,6 @@ public interface ShoppingCartMapper {
     ShoppingCart toShoppingCart(ShoppingCartRequest request);
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "product.id", target = "productId")
     ShoppingCartResponse toShoppingCartResponse(ShoppingCart product);
 
     void updateShoppingCart(@MappingTarget ShoppingCart shoppingCart, ShoppingCartRequest request);

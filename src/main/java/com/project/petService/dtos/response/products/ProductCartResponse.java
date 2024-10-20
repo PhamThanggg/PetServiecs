@@ -11,7 +11,14 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryResponse {
+public class ProductCartResponse {
     Long id;
+
     String name;
+
+    Double price;
+
+    CategoryResponse category;
+
+    Set<ProductImageResponse> productImages;
 }

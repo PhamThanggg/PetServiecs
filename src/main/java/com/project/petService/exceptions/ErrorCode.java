@@ -16,6 +16,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(1004, "Mật khẩu phải có ít nhất {min} ký tự", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1005, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, "Bạn chưa đăng nhập", HttpStatus.UNAUTHORIZED),
+    AUTHENTICATION(1006, "Thông tin tài khoản hoặc mật khẩu không chính xác", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "Bạn không có quyền truy cập", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Tuổi của bạn phải ít nhất là {min}", HttpStatus.BAD_REQUEST),
 

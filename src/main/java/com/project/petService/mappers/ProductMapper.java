@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public interface ProductMapper {
     Product toProduct(ProductRequest request);
 
-    @Mapping(source = "category.id", target = "categoryId")
+//    @Mapping(source = "category.id", target = "categoryId")
     ProductResponse toProductResponse(Product product);
 
     void updateProduct(@MappingTarget Product product, ProductRequest request);
