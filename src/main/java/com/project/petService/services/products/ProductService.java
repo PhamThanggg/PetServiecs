@@ -6,6 +6,7 @@ import com.project.petService.dtos.response.products.ProductResponse;
 import com.project.petService.entities.Category;
 import com.project.petService.entities.Product;
 import com.project.petService.entities.ProductImage;
+import com.project.petService.entities.SubCategory;
 import com.project.petService.exceptions.AppException;
 import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.ProductImageMapper;
@@ -13,7 +14,8 @@ import com.project.petService.mappers.ProductMapper;
 import com.project.petService.repositories.CategoryRepository;
 import com.project.petService.repositories.ProductImageRepository;
 import com.project.petService.repositories.ProductRepository;
-import com.project.petService.services.uploadFile.CloudService;
+import com.project.petService.repositories.SubCategoryRepository;
+import com.project.petService.services.util.CloudService;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductService implements IProductService {
     ProductRepository productRepository;
-    CategoryRepository categoryRepository;
+    SubCategoryRepository categoryRepository;
     ProductImageRepository productImageRepository;
     ProductMapper productMapper;
     ProductImageMapper productImageMapper;
@@ -48,11 +49,11 @@ public class ProductService implements IProductService {
         if(productRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.PRODUCT_EXISTS);
         }
-        Category category =  categoryRepository.findById(request.getCategoryId())
+        SubCategory category =  categoryRepository.findById(request.getSubCategoryId())
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTS));
 
         Product product = productMapper.toProduct(request);
-        product.setCategory(category);
+        product.setSubCategory(category);
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
@@ -73,11 +74,12 @@ public class ProductService implements IProductService {
 
     @Override
     public Page<ProductResponse> searchProductOrCategoryOrPrice(
-            String name, Long categoryId, Double price,
+            String name, Long categoryId,
+            Double minPrice, Double maxPrice,
             int page, int limit
     ) {
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
-        return productRepository.findProductOrCategoryOrPrice(name, categoryId, price, pageable).map(productMapper::toProductResponse);
+        return productRepository.findProductOrCategoryOrPrice(name, categoryId, minPrice, maxPrice, pageable).map(productMapper::toProductResponse);
     }
 
     @Override
@@ -145,12 +147,12 @@ public class ProductService implements IProductService {
                 throw new AppException(ErrorCode.PRODUCT_EXISTS);
             }
         }
-        Category category =  categoryRepository.findById(request.getCategoryId())
+        SubCategory category =  categoryRepository.findById(request.getSubCategoryId())
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTS));
 
-        product.setCategory(category);
+        product.setSubCategory(category);
         productMapper.updateProduct(product, request);
-        product.setCategory(category);
+        product.setSubCategory(category);
 
         return productMapper.toProductResponse(productRepository.save(product));
     }

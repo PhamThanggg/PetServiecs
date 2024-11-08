@@ -11,6 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ShoppingCartResponse {
+    Long id;
+
     Long quantity;
 
     Double totalPrice;

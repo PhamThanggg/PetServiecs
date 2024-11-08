@@ -6,6 +6,8 @@ import com.project.petService.entities.ShoppingCart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;
@@ -16,5 +18,8 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
     Page<Inventory> findByProductNameContaining(String name, Pageable pageable);
 
-    Set<Inventory> findByIdIn(Set<Long> ids);
+    Set<Inventory> findByBusinessIdAndProductIdIn(Long businessId, Set<Long> ids);
+
+    @Query("SELECT i.quantity FROM Inventory i WHERE i.business.id = :businessId AND i.product.id = :productId")
+    Integer findQuantityByBusinessAndProduct(@Param("businessId") Long businessId, @Param("productId") Long productId);
 }

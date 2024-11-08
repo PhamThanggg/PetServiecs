@@ -35,7 +35,7 @@ public class Product extends BaseEntity{
     Set<ProductImage> productImages;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId")
-    Category category;
+    @JoinColumn(name = "subCategoryId")
+    SubCategory subCategory;
 
 }

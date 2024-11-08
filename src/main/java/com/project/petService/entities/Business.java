@@ -26,6 +26,13 @@ public class Business extends BaseEntity{
 
     String email;
 
+    Double latitude;
+
+    Double longitude;
+
+    @OneToMany(mappedBy = "business")
+    Set<Inventory> inventory;
+
     @ManyToMany(fetch = FetchType.LAZY)
     Set<BusinessType> businessType;
 

@@ -19,23 +19,28 @@ public class Order extends BaseEntity{
     @Column(name = "orderId")
     Long id;
 
+    String fullName;
+
+    String email;
+
     String phone;
 
     String address;
 
     int quantity;
 
-    Float totalPrice;
+    Double totalPrice;
 
     String status;
-
-    String paymentStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     User user;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="orderDetail")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     List<OrderDetail> orderDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "businessId")
+    Business business;
 }

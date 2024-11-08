@@ -3,6 +3,8 @@ package com.project.petService.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Table(name="category")
 @Entity
 @Getter
@@ -17,4 +19,7 @@ public class Category {
     Long id;
 
     String name;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    Set<SubCategory> subCategory;
 }

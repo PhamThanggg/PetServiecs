@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class OrderDetailRequest {
-    Long inventoryId;
+    Long productId;
     int quantity;
+    Double price;
 }

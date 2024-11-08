@@ -2,12 +2,14 @@ package com.project.petService.controllers;
 
 import com.project.petService.dtos.requests.orders.OrderRequest;
 import com.project.petService.dtos.response.ApiResponse;
+import com.project.petService.dtos.response.PageResponse;
 import com.project.petService.dtos.response.orders.OrderResponse;
 import com.project.petService.services.order.OrderService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -43,6 +45,25 @@ public class OrderController {
         return ApiResponse.<List<OrderResponse>>builder()
                 .message("Tổng số sản phẩm: " + totalCinema)
                 .result(orderResponses)
+                .build();
+    }
+
+    @GetMapping("/myOrder")
+    public PageResponse<List<OrderResponse>> getMyAllOrder(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "limit" , required = false) int limit,
+            @RequestParam(value = "name" , required = false) String name,
+            @RequestParam(value = "status" , required = false) String status
+    ){
+        Page<OrderResponse> orderResponses = orderService
+                .getMyOrderALl(page, limit, status, name);
+        return PageResponse.<List<OrderResponse>>builder()
+                .message("ok")
+                .currentPage(orderResponses.getNumber())
+                .totalPages(orderResponses.getTotalPages())
+                .totalElements(orderResponses.getTotalElements())
+                .pageSize(orderResponses.getSize())
+                .result(orderResponses.getContent())
                 .build();
     }
 

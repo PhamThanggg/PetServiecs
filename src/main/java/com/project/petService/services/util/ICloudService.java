@@ -1,4 +1,4 @@
-package com.project.petService.services.uploadFile;
+package com.project.petService.services.util;
 
 import org.springframework.web.multipart.MultipartFile;
 

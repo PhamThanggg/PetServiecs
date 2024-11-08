@@ -1,6 +1,7 @@
 package com.project.petService.services.shoppingCart;
 
 import com.project.petService.dtos.requests.shoppingCart.ShoppingCartRequest;
+import com.project.petService.dtos.requests.shoppingCart.ShoppingCartUpdateRequest;
 import com.project.petService.dtos.response.shoppingCart.ShoppingCartResponse;
 import com.project.petService.dtos.response.users.UserResponse;
 import com.project.petService.entities.Product;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -110,8 +112,19 @@ public class ShoppingCartService implements IShoppingCartService {
         return shoppingCartMapper.toShoppingCartResponse(shoppingCartRepository.save(shoppingCart));
     }
 
-    @Override
     @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
+    public ShoppingCartResponse updateCountShoppingCart(ShoppingCartUpdateRequest request, Long id) {
+        ShoppingCart shoppingCart = shoppingCartRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXISTS));
+
+        shoppingCart.setTotalPrice(request.getTotalPrice());
+        shoppingCart.setQuantity(request.getQuantity());
+
+        return shoppingCartMapper.toShoppingCartResponse(shoppingCartRepository.save(shoppingCart));
+    }
+
+    @Override
+    @PreAuthorize("@securityService.isCartOwner(#id, authentication) or hasRole('ADMIN')")
     public void deleteShoppingCart(Long id) {
         shoppingCartRepository.deleteById(id);
     }

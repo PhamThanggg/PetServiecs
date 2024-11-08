@@ -1,6 +1,7 @@
 package com.project.petService.controllers;
 
 import com.project.petService.dtos.requests.shoppingCart.ShoppingCartRequest;
+import com.project.petService.dtos.requests.shoppingCart.ShoppingCartUpdateRequest;
 import com.project.petService.dtos.response.ApiResponse;
 import com.project.petService.dtos.response.PageResponse;
 import com.project.petService.dtos.response.shoppingCart.ShoppingCartResponse;
@@ -83,6 +84,16 @@ public class ShoppingCartController {
     ){
         return ApiResponse.<ShoppingCartResponse>builder()
                 .result(productService.updateShoppingCart(request, id))
+                .build();
+    }
+
+    @PutMapping("update-count/{id}")
+    public ApiResponse<ShoppingCartResponse> updateCountShoppingCartById(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid ShoppingCartUpdateRequest request
+    ){
+        return ApiResponse.<ShoppingCartResponse>builder()
+                .result(productService.updateCountShoppingCart(request, id))
                 .build();
     }
 

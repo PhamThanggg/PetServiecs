@@ -14,6 +14,5 @@ import java.util.Set;
 @Builder
 public class OrderDetailResponse {
     int quantity;
-    Double price;
-    Set<InventoryResponse> inventoryResponses;
+    InventoryResponse inventory;
 }

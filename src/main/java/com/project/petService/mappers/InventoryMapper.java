@@ -13,7 +13,6 @@ public interface InventoryMapper {
     Inventory toInventory(InventoryRequest request);
 
     @Mapping(source = "business.id", target = "businessId")
-    @Mapping(source = "product.id", target = "productId")
     InventoryResponse toInventoryResponse(Inventory product);
 
     void updateInventory(@MappingTarget Inventory inventory, InventoryRequest request);

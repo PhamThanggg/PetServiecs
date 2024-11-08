@@ -35,5 +35,5 @@ public class ProductRequest {
 
     @NotNull(message = "CATEGORY_NOT_BLANK")
     @Min(value = 1, message = "CATEGORY_ID_INVALID")
-    Long categoryId;
+    Long subCategoryId;
 }

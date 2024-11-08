@@ -26,11 +26,13 @@ public enum ErrorCode {
 
     // Dùng chung all
     PHONE_FORMAT(1011, "Số điện thoại không đúng định dạng", HttpStatus.BAD_REQUEST),
-    PHONE_VALID(1608, "Phone must be between {min} and {max} characters", HttpStatus.BAD_REQUEST),
+    PHONE_VALID(1608, "Phone must be 10 characters", HttpStatus.BAD_REQUEST),
     PHONE_INVALID(1012, "Số điện thoại không được để trống", HttpStatus.BAD_REQUEST),
+    PHONE_EXISTS(1012, "Số điện thoại đã tồn tại", HttpStatus.BAD_REQUEST),
     EMAIL_FORMAT(1607, "Email không đúng định dạng", HttpStatus.BAD_REQUEST),
     EMAIL_NOT_BLANK(1013, "Email không được để trống", HttpStatus.BAD_REQUEST),
-    EMAIL_INVALID(1014, "Tên kinh doanh phải nằm trong khoảng từ {min} đến {max} ký tự", HttpStatus.BAD_REQUEST),
+    EMAIL_INVALID(1014, "Email phải nằm trong khoảng từ {min} đến {max} ký tự", HttpStatus.BAD_REQUEST),
+    EMAIL_EXISTS(1012, "Email đã tồn tại", HttpStatus.BAD_REQUEST),
     ADDRESS_NOT_BLANK(1009, "Địa chỉ không được để trống", HttpStatus.BAD_REQUEST),
     ADDRESS_VALID(1010, "Địa chỉ phải nằm trong khoảng từ {min} đến {max} ký tự", HttpStatus.BAD_REQUEST),
     PRICE_NOT_NULL(1011, "Giá không được để trống", HttpStatus.BAD_REQUEST),
@@ -57,15 +59,18 @@ public enum ErrorCode {
     USER_EXISTS(2602, "Người dùng đã tồn tại", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTS(2602, "Người dung không tồn tại", HttpStatus.BAD_REQUEST),
     GENDER_NOT_BLANK(2501, "Giới tính không được để trống.", HttpStatus.BAD_REQUEST),
+    GENDER_INVALID(2501, "Giới tính không đúng", HttpStatus.BAD_REQUEST),
 
     USER_NOT_NULL(2501, "Bạn chưa chọn user", HttpStatus.BAD_REQUEST),
     USER_INVALID(2502, "ID người dùng phải lớn hơn hoặc bằng {value}", HttpStatus.BAD_REQUEST),
 
     PASSWORD_NOT_BLANK(2301, "Bạn chưa nhập mật khẩu", HttpStatus.BAD_REQUEST),
     REPASSWORD_NOT_BLANK(2301, "Bạn chưa nhập lại mật khẩu", HttpStatus.BAD_REQUEST),
-    PASSWORD_INVALID(2302, "Mật khẩu phải từ {min} ký tự", HttpStatus.BAD_REQUEST),
+    PASSWORD_INVALID(2302, "Mật khẩu phải chứa từ 6 đến 30 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.", HttpStatus.BAD_REQUEST),
+    PASSWORD_FORMAT(2302, "Mật khẩu phải chứa từ 6 đến 30 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.", HttpStatus.BAD_REQUEST),
     USERNAME_FORMAT(1607, "Tên đăng nhập chỉ được chứa chữ và số.", HttpStatus.BAD_REQUEST),
     USERNAME_NOT_BLANK(1013, "Tên đăng nhập không được để trống", HttpStatus.BAD_REQUEST),
+    USERNAME_VALID(1608, "Tên tài khoản phải nằm trong khoảng từ {min} max {max} ký tự", HttpStatus.BAD_REQUEST),
     //=================== USER END =======================
 
     //=================== AREA BEGIN =======================
@@ -151,6 +156,13 @@ public enum ErrorCode {
     ORDER_DETAIL_INVALID(2502, "ID đặt hàng phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
 
     ORDER_DETAIL_NOT_EXISTS(2602, "Chi tiết đặt hàng không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ORDER_DETAIL END =======================
+
+    //=================== INVOICE BEGIN =====================
+    INVOICE_NOT_BLANK(2501, "Chi tiết đặt hàng là bắt buộc", HttpStatus.BAD_REQUEST),
+    INVOICE_INVALID(2502, "ID đặt hàng phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    INVOICE_NOT_EXISTS(2602, "Hóa đơn không tồn tại", HttpStatus.BAD_REQUEST),
     //=================== ORDER_DETAIL END =======================
 
     ;

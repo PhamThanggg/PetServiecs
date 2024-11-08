@@ -8,9 +8,9 @@
 		<version>3.2.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.devteria</groupId>
-	<artifactId>identity-service</artifactId>
-	<name>identity-service</name>
+	<groupId>com.thangpham</groupId>
+	<artifactId>cinema-ticket</artifactId>
+	<name>cinema-ticket</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Identity service</description>
 	<properties>
@@ -130,6 +130,7 @@
 			<artifactId>feign-core</artifactId>
 			<version>11.10</version>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

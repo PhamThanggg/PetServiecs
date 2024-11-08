@@ -14,4 +14,5 @@ import java.util.Set;
 public class CategoryResponse {
     Long id;
     String name;
+    Set<SubCategoryResponse> subCategory;
 }

@@ -16,7 +16,9 @@ public interface IProductService {
 
     Page<ProductResponse> getProductALl(int page, int limit);
 
-    Page<ProductResponse> searchProductOrCategoryOrPrice(String name, Long categoryId, Double price, int page, int limit);
+    Page<ProductResponse> searchProductOrCategoryOrPrice(String name, Long categoryId,
+                                                         Double minPrice, Double maxPrice,
+                                                         int page, int limit);
 
     ProductResponse createProductImage(Long productId, List<MultipartFile> files) throws IOException;
 

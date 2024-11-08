@@ -28,7 +28,7 @@ public class ProductResponse {
 
     String status;
 
-    CategoryResponse category;
+    SubCategoryResponse subCategory;
 
     Set<ProductImageResponse> productImages;
 }

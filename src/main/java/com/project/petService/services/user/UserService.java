@@ -43,6 +43,12 @@ public class UserService implements IUserService {
         if(userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXISTED);
 
+        if(userRepository.existsByEmail(request.getEmail()))
+            throw new AppException(ErrorCode.EMAIL_EXISTS);
+
+        if(userRepository.existsByPhone(request.getPhone()))
+            throw new AppException(ErrorCode.PHONE_EXISTS);
+
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
@@ -63,6 +69,16 @@ public class UserService implements IUserService {
        User user =  userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return userMapper.toUserResponse(user);
+    }
+
+    @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
+    public User getMyUserInfo() {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+
+        User user =  userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        return user;
     }
 
     @Override

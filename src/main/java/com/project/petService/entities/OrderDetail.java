@@ -18,9 +18,13 @@ public class OrderDetail {
     @Column(name = "orderDetailId")
     Long id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId")
-    Set<Inventory> inventories;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inventoryId")
+    Inventory inventory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderId")
+    Order order;
 
     int quantity;
 

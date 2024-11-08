@@ -14,17 +14,19 @@ import java.util.List;
 public class OrderResponse {
     Long id;
 
+    String fullName;
+
+    String email;
+
     String phone;
 
     String address;
 
     int quantity;
 
-    Float totalPrice;
+    Double totalPrice;
 
     String status;
-
-    String paymentStatus;
 
     String userId;
 

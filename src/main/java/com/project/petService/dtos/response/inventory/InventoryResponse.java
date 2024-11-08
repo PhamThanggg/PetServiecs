@@ -1,5 +1,6 @@
 package com.project.petService.dtos.response.inventory;
 
+import com.project.petService.dtos.response.products.ProductResponse;
 import lombok.*;
 
 @Data
@@ -13,9 +14,9 @@ public class InventoryResponse {
 
     Long businessId;
 
-    Long productId;
-
     int quantity;
 
     int quantitySold;
+
+    ProductResponse product;
 }

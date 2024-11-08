@@ -11,6 +11,8 @@ public interface IOrderService {
 
     Page<OrderResponse> getOrderALl(int page, int limit);
 
+    Page<OrderResponse> getMyOrderALl(int page, int limit, String status, String name);
+
     Page<OrderResponse> search(String name, int page, int limit);
 
     OrderResponse updateOrder(OrderRequest request, Long id);

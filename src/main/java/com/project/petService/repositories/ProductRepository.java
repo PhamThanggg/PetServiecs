@@ -8,16 +8,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByName(String name);
-
+    Set<Product> findByIdIn(Set<Long> ids);
     @Query("SELECT p FROM Product p WHERE " +
             "(:name IS NULL OR :name = '' OR p.name LIKE %:name%) AND " +
-            "(:categoryId IS NULL OR p.category.id = :categoryId) AND " +
-            "(:price IS NULL OR p.price <= :price)")
+            "(:subCategoryId IS NULL OR p.subCategory.id = :subCategoryId) AND " +
+            "((:minPrice IS NULL OR p.price >= :minPrice) AND (:maxPrice IS NULL OR p.price <= :maxPrice))")
     Page<Product> findProductOrCategoryOrPrice(@Param("name") String name,
-                                 @Param("categoryId") Long categoryId,
-                                 @Param("price") Double price,
+                                 @Param("subCategoryId") Long subCategoryId,
+                                 @Param("minPrice") Double minPrice,
+                                 @Param("maxPrice")  Double maxPrice,
                                  Pageable pageable);
 }

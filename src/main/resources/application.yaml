@@ -31,3 +31,19 @@ cloudinary:
   cloud-name: dsoz9gcfd
   api-key: 791357523784923
   api-secret: NgevDFEbDQCBM08mo5lsvW93l40
+
+outbound:
+  identity:
+    client-id: "296253261995-l9h9uurvmsmb31l9lenrv3iau6p1c6lj.apps.googleusercontent.com"
+    client-secret: "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"
+    redirect-uri: "http://localhost:3000"
+
+google:
+  api:
+    key: "AIzaSyCRU8BG96rtvdlTRv4j78TY__97su54kzc"
+
+vnp:
+  partnerCode: K126GZDF
+  accessKey: ACCESS_KEY
+  secretKey: AVUIGDB260WKO4IV9VJMDZGUDOZLHUQU
+  endpoint: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
