@@ -32,7 +32,7 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/v1/auth/token", "/api/v1/users/register", "/api/v1/auth/introspect",
-            "/api/v1/auth/logout", "/api/v1/auth/oauth2/google"
+            "/api/v1/auth/logout", "/api/v1/auth/oauth2/google",
     };
 
     @Autowired
@@ -41,7 +41,9 @@ public class SecurityConfig {
     private final String[] PUBLIC_GET_ENDPOINTS = {
             "/api/v1/area/**", "/api/v1/business/**", "/api/v1/category/**",
             "/api/v1/inventory/**", "/api/v1/product/**", "/api/v1/room/**",
-            "api/v1/room_type/**" ,  "api/v1/service/**", "/api/v1/subCategory/**"
+            "api/v1/room_type/**" ,  "api/v1/service/**", "/api/v1/subCategory/**",
+            "api/v1/size/**", "api/v1/attributeType/**", "api/v1/attribute/**",
+            "api/v1/product-review/**"
     };
 
     @Autowired

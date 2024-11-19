@@ -40,7 +40,10 @@ public class Order extends BaseEntity{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     List<OrderDetail> orderDetails;
 
+    @OneToOne(mappedBy = "order")
+    Invoice invoice;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "businessId")
-    Business business;
+    @JoinColumn(name = "promotionId")
+    Promotion promotion;
 }

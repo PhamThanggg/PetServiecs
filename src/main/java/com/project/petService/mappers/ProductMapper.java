@@ -2,6 +2,7 @@ package com.project.petService.mappers;
 
 
 import com.project.petService.dtos.requests.products.ProductRequest;
+import com.project.petService.dtos.response.products.ProductDetailResponse;
 import com.project.petService.dtos.response.products.ProductResponse;
 import com.project.petService.entities.Product;
 import com.project.petService.entities.ProductImage;
@@ -18,6 +19,8 @@ public interface ProductMapper {
 
 //    @Mapping(source = "category.id", target = "categoryId")
     ProductResponse toProductResponse(Product product);
+
+    ProductDetailResponse toProductDetailResponse(Product product);
 
     void updateProduct(@MappingTarget Product product, ProductRequest request);
 

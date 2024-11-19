@@ -116,6 +116,7 @@ public enum ErrorCode {
     DESCRIPTION_INVALID(1104, "Mô tả sản phẩm phải nằm trong khoảng từ {min} đến {max} ký tự.", HttpStatus.BAD_REQUEST),
     BRAND_NOT_BLANK(1107, "Thương hiệu không được để trống", HttpStatus.BAD_REQUEST),
     BRAND_INVALID(1108, "Thương hiệu phải nằm trong khoảng từ {min} đến {max} ký tự.", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_ENOUGH(1109, "Sản phẩm bạn chọn tạm hết hàng hoặc không đủ số lượng", HttpStatus.BAD_REQUEST),
 
     PRODUCT_EXISTS(1151, "Tên sản phẩm đã tồn tại", HttpStatus.BAD_REQUEST),
     PRODUCT_NOT_EXISTS(1151, "Sản phẩm bạn chọn không tồn tại", HttpStatus.BAD_REQUEST),
@@ -156,6 +157,8 @@ public enum ErrorCode {
     ORDER_DETAIL_INVALID(2502, "ID đặt hàng phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
 
     ORDER_DETAIL_NOT_EXISTS(2602, "Chi tiết đặt hàng không tồn tại", HttpStatus.BAD_REQUEST),
+
+    ORDER_NOT_EXISTS(2602, "Đơn hàng không tồn tại", HttpStatus.BAD_REQUEST),
     //=================== ORDER_DETAIL END =======================
 
     //=================== INVOICE BEGIN =====================
@@ -165,6 +168,45 @@ public enum ErrorCode {
     INVOICE_NOT_EXISTS(2602, "Hóa đơn không tồn tại", HttpStatus.BAD_REQUEST),
     //=================== ORDER_DETAIL END =======================
 
+    //=================== ATTRIBUTE BEGIN =====================
+    ATTRIBUTE_NOT_BLANK(2501, "Thuộc tính sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_INVALID(2502, "ID thuộc tính phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    ATTRIBUTE_EXISTS(2602, "Tên thuộc tính đã tồn tại", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_NOT_EXISTS(2602, "Thuộc tính không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ATTRIBUTE END =======================
+
+    //=================== ATTRIBUTE_TYPE BEGIN =====================
+    ATTRIBUTE_TYPE_NOT_BLANK(2501, "Loại thuộc tính sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_TYPE_INVALID(2502, "ID loại thuộc tính phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    ATTRIBUTE_TYPE_EXISTS(2602, "Tên loại thuộc tính đã tồn tại", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_TYPE_NOT_EXISTS(2602, "Loại thuộc tính không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ATTRIBUTE_TYPE END =======================
+
+    //=================== SIZE BEGIN =====================
+    SIZE_NOT_BLANK(2501, "Kích cỡ sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
+    SIZE_INVALID(2502, "ID kích cỡ phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    SIZE_EXISTS(2602, "Tên kích cỡ đã tồn tại", HttpStatus.BAD_REQUEST),
+    SIZE_NOT_EXISTS(2602, "Kích cỡ không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ATTRIBUTE END =======================
+
+    //=================== SIZE BEGIN =====================
+    PRODUCT_REVIEW_NOT_BLANK(2501, "Kích cỡ sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
+    PRODUCT_REVIEW_INVALID(2502, "ID kích cỡ phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    PRODUCT_REVIEW_EXISTS(2602, "Bạn đã đánh giá sản phẩm này rồi." ,HttpStatus.BAD_REQUEST),
+    PRODUCT_REVIEW_NOT_EXISTS(2602, "Đánh giá không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== ATTRIBUTE END =======================
+
+    //=================== PROMOTION BEGIN =====================
+    PROMOTION_NOT_BLANK(2501, "Khuyễn mãi là bắt buộc", HttpStatus.BAD_REQUEST),
+    PROMOTION_INVALID(2502, "ID khuyến mãi phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+
+    PROMOTION_EXISTS(2602, "Tên khuyến mãi đã tồn tại." ,HttpStatus.BAD_REQUEST),
+    PROMOTION_NOT_EXISTS(2602, "Khuyến mãi không tồn tại", HttpStatus.BAD_REQUEST),
+    //=================== PROMOTION END =======================
     ;
 
 

@@ -49,6 +49,8 @@ public class PaymentController {
         String status = paymentStatus == 1 ? "1" : "0";
         if(paymentStatus == 1){
            invoiceService.updateInvoice(orderId, paymentTime, totalPrice, "DA_THANH_TOAN");
+        }else{
+            invoiceService.updateInvoiceFail(orderId);
         }
 
         return ApiResponse.<String>builder()

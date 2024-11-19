@@ -17,7 +17,11 @@ public class ShoppingCartResponse {
 
     Double totalPrice;
 
+    Long attributeSizeId;
+
     String userId;
 
     ProductCartResponse product;
+
+    String message;
 }

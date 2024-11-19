@@ -21,6 +21,8 @@ public class ShoppingCart extends BaseEntity {
 
     Double totalPrice;
 
+    Long attributeSizeId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     User user;

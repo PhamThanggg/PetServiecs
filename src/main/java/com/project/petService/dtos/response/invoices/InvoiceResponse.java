@@ -22,7 +22,5 @@ public class InvoiceResponse {
     LocalDateTime paymentDate;
 
     String status;
-
-    OrderResponse order;
 }
 

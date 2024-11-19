@@ -31,11 +31,16 @@ public class Product extends BaseEntity{
 
     String status;
 
+    int percentDiscount;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     Set<ProductImage> productImages;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subCategoryId")
     SubCategory subCategory;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    Set<Attribute> attributes;
 
 }

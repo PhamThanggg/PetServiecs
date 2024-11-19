@@ -1,6 +1,5 @@
 package com.project.petService.services.securityService;
 
-import com.project.petService.entities.Invoice;
 import com.project.petService.entities.Order;
 import com.project.petService.entities.ShoppingCart;
 import com.project.petService.repositories.InvoiceRepository;
@@ -11,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service    
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)
 public class SecurityService {

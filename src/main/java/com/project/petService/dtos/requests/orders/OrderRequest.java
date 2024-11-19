@@ -37,6 +37,8 @@ public class OrderRequest {
     @Size(min = 3, max = 30, message = "STATUS_INVALID")
     String status;
 
+    Long cartId;
+
     @NotEmpty(message = "ORDER_DETAIL_NOT_BLANK")
     Set<OrderDetailRequest> orderDetails;
 }

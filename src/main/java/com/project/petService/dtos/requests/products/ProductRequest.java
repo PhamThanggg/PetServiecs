@@ -33,6 +33,8 @@ public class ProductRequest {
     @Size(min = 2, max = 20, message = "STATUS_INVALID")
     String status;
 
+    int percentDiscount;
+
     @NotNull(message = "CATEGORY_NOT_BLANK")
     @Min(value = 1, message = "CATEGORY_ID_INVALID")
     Long subCategoryId;

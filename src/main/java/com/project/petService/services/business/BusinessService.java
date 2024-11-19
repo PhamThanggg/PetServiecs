@@ -45,10 +45,6 @@ public class BusinessService implements IBusinessService{
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public BusinessResponse createBusiness(@RequestBody @Valid BusinessRequest request) {
-        double[] coordinates = geocodingService.getCoordinates(VietnameseStringUtils.removeDiacritics(request.getAddress()));
-        double latitude = coordinates[0];
-        double longitude = coordinates[1];
-
         if(businessRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.BUSINESS_NAME_EXISTS);
         }
@@ -71,8 +67,6 @@ public class BusinessService implements IBusinessService{
         Business business = businessMapper.toBusiness(request);
         business.setBusinessType(listBusinessType);
         business.setArea(area);
-        business.setLatitude(latitude);
-        business.setLongitude(longitude);
         return businessMapper.toBusinessResponse(businessRepository.save(business));
     }
 
@@ -118,45 +112,4 @@ public class BusinessService implements IBusinessService{
     public void deleteBusiness(Long id) {
         businessRepository.deleteById(id);
     }
-
-    public Business findNearestBusinessesForOrder(OrderRequest request, double latitude, double longitude) {
-        OrderDetailRequest firstItem = request.getOrderDetails().iterator().next();
-
-        List<Business> nearestBusinesses = businessRepository.findNearestStoresWithStock(
-                firstItem.getProductId(),
-                firstItem.getQuantity(),
-                latitude,
-                longitude
-        );
-
-        List<OrderDetailRequest> outOfStockItems = new ArrayList<>();
-
-        for (OrderDetailRequest item : request.getOrderDetails()) {
-            nearestBusinesses = nearestBusinesses.stream()
-                    .filter(business -> {
-                        int availableQuantity = inventoryRepository.findQuantityByBusinessAndProduct(
-                                business.getId(), item.getProductId()
-                        );
-                        return availableQuantity >= item.getQuantity();
-                    })
-                    .collect(Collectors.toList());
-
-            if (nearestBusinesses.isEmpty()) {
-                outOfStockItems.add(item);
-            }
-        }
-
-        if (!outOfStockItems.isEmpty()) {
-            String outOfStockMessage = "Sản phẩm hết hàng hoặc không đủ số lượng: " +
-                    outOfStockItems.stream()
-                            .map(item -> "Inventory ID: " + item.getProductId() + ", Required Quantity: " + item.getQuantity())
-                            .collect(Collectors.joining("; "));
-
-            throw new RuntimeException(outOfStockMessage);
-        }
-
-        return nearestBusinesses.get(0);
-    }
-
-
 }

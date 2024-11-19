@@ -28,6 +28,8 @@ public class ProductResponse {
 
     String status;
 
+    int percentDiscount;
+
     SubCategoryResponse subCategory;
 
     Set<ProductImageResponse> productImages;

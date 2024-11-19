@@ -13,8 +13,9 @@ import org.springframework.stereotype.Repository;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o " +
             "LEFT JOIN o.orderDetails od " +
-            "LEFT JOIN od.inventory i " +
-            "LEFT JOIN i.product p " +
+            "LEFT JOIN od.attributeSize az " +
+            "LEFT JOIN az.attribute a " +
+            "LEFT JOIN a.product p " +
             "WHERE " +
             "(:name IS NULL OR :name = '' OR p.name LIKE %:name%) AND " +
             "(:status IS NULL OR :status = '' OR o.status = :status) AND " +

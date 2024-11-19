@@ -1,6 +1,7 @@
 package com.project.petService.services.products;
 
 import com.project.petService.dtos.requests.products.ProductRequest;
+import com.project.petService.dtos.response.products.ProductDetailResponse;
 import com.project.petService.dtos.response.products.ProductImageResponse;
 import com.project.petService.dtos.response.products.ProductResponse;
 import com.project.petService.entities.Category;
@@ -58,11 +59,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse findById(Long id) {
+    public ProductDetailResponse findById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXISTS));
 
-        return productMapper.toProductResponse(product);
+        return productMapper.toProductDetailResponse(product);
     }
 
     @Override

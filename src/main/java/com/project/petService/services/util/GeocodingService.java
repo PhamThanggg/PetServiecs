@@ -17,7 +17,7 @@ public class GeocodingService {
     @Value("${google.api.key}")
     private String apiKey;
 
-    public double[] getCoordinates(String address) {
+    public double[] getCoordinates(String address) { // lấy kinh độ  vĩ độ (k dùng nữa)
         try {
             String apiKey = "37c1916cae104f2cbb35803884973bc0";
             String url = "https://api.opencagedata.com/geocode/v1/json?q=" +

@@ -2,10 +2,13 @@ package com.project.petService.controllers;
 
 import com.project.petService.dtos.requests.shoppingCart.ShoppingCartRequest;
 import com.project.petService.dtos.requests.shoppingCart.ShoppingCartUpdateRequest;
+import com.project.petService.dtos.requests.shoppingCart.ShoppingCartUpdateSizeRequest;
 import com.project.petService.dtos.response.ApiResponse;
 import com.project.petService.dtos.response.PageResponse;
 import com.project.petService.dtos.response.shoppingCart.ShoppingCartResponse;
+import com.project.petService.dtos.response.users.UserResponse;
 import com.project.petService.services.shoppingCart.ShoppingCartService;
+import com.project.petService.services.user.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShoppingCartController {
     ShoppingCartService productService;
+    UserService userService;
 
     @PostMapping("")
     public ApiResponse<ShoppingCartResponse> create(
@@ -97,11 +101,29 @@ public class ShoppingCartController {
                 .build();
     }
 
+    @PutMapping("update-size/{id}")
+    public ApiResponse<ShoppingCartResponse> updateSizeShoppingCartById(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid ShoppingCartUpdateSizeRequest request
+    ){
+        return ApiResponse.<ShoppingCartResponse>builder()
+                .result(productService.updateAttributeShoppingCart(request, id))
+                .build();
+    }
+
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteShoppingCartById(@PathVariable("id") Long id){
         productService.deleteShoppingCart(id);
         return ApiResponse.<String>builder()
                 .result("Xóa sản phẩm thành công")
+                .build();
+    }
+
+    @GetMapping("/count")
+    public ApiResponse<Integer> getShoppingCartCount(){
+        UserResponse userResponse = userService.getMyInfo();
+        return ApiResponse.<Integer>builder()
+                .result(productService.countShoppingCart(userResponse.getId()))
                 .build();
     }
 }

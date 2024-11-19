@@ -1,12 +1,10 @@
 package com.project.petService.dtos.response.orders;
 
-import com.project.petService.dtos.response.inventory.InventoryResponse;
+import com.project.petService.dtos.response.products.AttributeSizeResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -14,5 +12,6 @@ import java.util.Set;
 @Builder
 public class OrderDetailResponse {
     int quantity;
-    InventoryResponse inventory;
+    Double price;
+    AttributeSizeResponse attributeSize;
 }

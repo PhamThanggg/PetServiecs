@@ -19,8 +19,8 @@ public class OrderDetail {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inventoryId")
-    Inventory inventory;
+    @JoinColumn(name = "attributeSizeId")
+    AttributeSize attributeSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId")

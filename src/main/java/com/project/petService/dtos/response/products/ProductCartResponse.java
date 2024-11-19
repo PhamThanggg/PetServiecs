@@ -21,4 +21,6 @@ public class ProductCartResponse {
     CategoryResponse category;
 
     Set<ProductImageResponse> productImages;
+
+    Set<AttributeResponse> attributes;
 }

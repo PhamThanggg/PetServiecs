@@ -3,6 +3,7 @@ package com.project.petService.controllers;
 import com.project.petService.dtos.requests.products.ProductRequest;
 import com.project.petService.dtos.response.ApiResponse;
 import com.project.petService.dtos.response.PageResponse;
+import com.project.petService.dtos.response.products.ProductDetailResponse;
 import com.project.petService.dtos.response.products.ProductResponse;
 import com.project.petService.services.products.ProductService;
 import jakarta.validation.Valid;
@@ -86,8 +87,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ProductResponse> getProductById(@PathVariable("id") Long id){
-        return ApiResponse.<ProductResponse>builder()
+    public ApiResponse<ProductDetailResponse> getProductById(@PathVariable("id") Long id){
+        return ApiResponse.<ProductDetailResponse>builder()
                 .result(productService.findById(id))
                 .build();
     }

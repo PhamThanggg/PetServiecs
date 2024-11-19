@@ -13,7 +13,4 @@ public class ShoppingCartUpdateRequest {
     @NotNull(message = "QUANTITY_NOT_NULL")
     @Min(value = 1, message = "QUANTITY_INVALID")
     Long quantity;
-
-    @Positive(message = "TOTAL_INVALID")
-    Double totalPrice;
 }

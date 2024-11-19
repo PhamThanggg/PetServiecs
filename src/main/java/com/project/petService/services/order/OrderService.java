@@ -7,15 +7,11 @@ import com.project.petService.dtos.response.users.UserResponse;
 import com.project.petService.entities.*;
 import com.project.petService.exceptions.AppException;
 import com.project.petService.exceptions.ErrorCode;
-import com.project.petService.mappers.OrderDetailMapper;
 import com.project.petService.mappers.OrderMapper;
+import com.project.petService.repositories.AttributeSizeRepository;
 import com.project.petService.repositories.OrderRepository;
-import com.project.petService.repositories.ProductRepository;
-import com.project.petService.repositories.UserRepository;
-import com.project.petService.services.business.BusinessService;
+import com.project.petService.repositories.ShoppingCartRepository;
 import com.project.petService.services.user.UserService;
-import com.project.petService.services.util.GeocodingService;
-import com.project.petService.services.util.VietnameseStringUtils;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -31,6 +27,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,29 +40,25 @@ public class OrderService implements IOrderService {
     OrderRepository orderRepository;
     OrderDetailService orderDetailService;
     OrderMapper orderMapper;
-    BusinessService businessService;
-    GeocodingService geocodingService;
     UserService userService;
-    ProductRepository productRepository;
+    AttributeSizeRepository attributeSizeRepository;
+    ShoppingCartRepository shoppingCartRepository;
 
     @Override
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
         User user = userService.getMyUserInfo();
 
-        double[] coordinates = geocodingService.getCoordinates(VietnameseStringUtils.removeDiacritics(request.getAddress()));
-        Business business = businessService.findNearestBusinessesForOrder(request, coordinates[0], coordinates[1]);
-
-        // check ton tai product
-        Set<Long> ids = request.getOrderDetails().stream().map(OrderDetailRequest::getProductId)
+        // check ton tai
+        Set<Long> cartIds = request.getOrderDetails().stream().map(OrderDetailRequest::getCartId)
                 .collect(Collectors.toSet());
-        Set<Product> products = productRepository.findByIdIn(ids);
+        Set<ShoppingCart> shoppingCarts = shoppingCartRepository.findByIdIn(cartIds);
 
-        Set<Long> existingIds = products.stream()
-                .map(Product::getId)
+        Set<Long> existingIds = shoppingCarts.stream()
+                .map(ShoppingCart::getId)
                 .collect(Collectors.toSet());
 
-        Set<Long> missingIds = ids.stream()
+        Set<Long> missingIds = cartIds.stream()
                 .filter(id -> !existingIds.contains(id))
                 .collect(Collectors.toSet());
 
@@ -73,20 +66,53 @@ public class OrderService implements IOrderService {
             throw new RuntimeException("The following IDs are not found: " + missingIds);
         }
 
+        Set<Long> attributeSizeIds = shoppingCarts.stream().map(ShoppingCart::getAttributeSizeId)
+                .collect(Collectors.toSet());
+
+        Set<AttributeSize> attributeSizes = attributeSizeRepository.findByIdIn(attributeSizeIds);
+
+        // check số lượng
+        Set<OrderDetail> orderDetailCreate = new HashSet<>();
+
+        for(ShoppingCart shoppingCart : shoppingCarts){
+            AttributeSize attributeSizeNew = null;
+            for(AttributeSize attributeSize : attributeSizes){
+                if(attributeSize.getId() == shoppingCart.getAttributeSizeId()){
+                    attributeSizeNew = attributeSize;
+                    if(attributeSize.getQuantity() < shoppingCart.getQuantity()){
+                        throw new AppException(ErrorCode.PRODUCT_NOT_ENOUGH);
+                    }else{
+                        attributeSize.setQuantity(Math.toIntExact(attributeSize.getQuantity() - shoppingCart.getQuantity()));
+                        attributeSize.setQuantitySold(Math.toIntExact(attributeSize.getQuantitySold() + shoppingCart.getQuantity()));
+                    }
+                }
+            }
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .quantity(Math.toIntExact(shoppingCart.getQuantity()))
+                    .attributeSize(attributeSizeNew)
+                    .price(shoppingCart.getTotalPrice())
+                    .build();
+
+            orderDetailCreate.add(orderDetail);
+        }
+
+        attributeSizeRepository.saveAll(attributeSizes);
+
         Double totalPrice = 0.0;
-        for (Product product:products){
-            totalPrice += product.getPrice();
+        for (ShoppingCart shoppingCart : shoppingCarts){
+            totalPrice += shoppingCart.getTotalPrice();
         }
 
         Order order = orderMapper.toOrder(request);
         order.setUser(user);
-        order.setBusiness(business);
-        order.setTotalPrice(totalPrice);
+        order.setTotalPrice(totalPrice + 30000);
         Order orderResult = orderRepository.save(order);
 
-        List<OrderDetail> orderDetails = orderDetailService.createOrderDetail(request.getOrderDetails(), ids, business.getId(), orderResult);
+        List<OrderDetail> orderDetails = orderDetailService.createOrderDetail(orderDetailCreate, orderResult);
         orderResult.setOrderDetails(orderDetails);
 
+        // xóa giỏ hàng
+        shoppingCartRepository.deleteAllById(cartIds);
         // tạo hóa đơn
         return orderMapper.toOrderResponse(orderResult);
     }

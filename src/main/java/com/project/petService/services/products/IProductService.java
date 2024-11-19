@@ -1,6 +1,7 @@
 package com.project.petService.services.products;
 
 import com.project.petService.dtos.requests.products.ProductRequest;
+import com.project.petService.dtos.response.products.ProductDetailResponse;
 import com.project.petService.dtos.response.products.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,7 @@ import java.util.Set;
 public interface IProductService {
     ProductResponse createProduct(ProductRequest request);
 
-    ProductResponse findById(Long id);
+    ProductDetailResponse findById(Long id);
 
     Page<ProductResponse> getProductALl(int page, int limit);
 
