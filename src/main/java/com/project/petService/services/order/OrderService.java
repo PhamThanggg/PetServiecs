@@ -10,6 +10,7 @@ import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.OrderMapper;
 import com.project.petService.repositories.AttributeSizeRepository;
 import com.project.petService.repositories.OrderRepository;
+import com.project.petService.repositories.PromotionRepository;
 import com.project.petService.repositories.ShoppingCartRepository;
 import com.project.petService.services.user.UserService;
 import jakarta.transaction.Transactional;
@@ -43,11 +44,19 @@ public class OrderService implements IOrderService {
     UserService userService;
     AttributeSizeRepository attributeSizeRepository;
     ShoppingCartRepository shoppingCartRepository;
+    PromotionRepository promotionRepository;
 
     @Override
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
         User user = userService.getMyUserInfo();
+
+        // check giam gia
+        Promotion promotion = null;
+        if(request.getPromotionName() != null && !request.getPromotionName().trim().isEmpty()){
+            promotion = promotionRepository.findValidByName(request.getPromotionName())
+                    .orElseThrow(() -> new AppException(ErrorCode.PROMOTION_NOT_EXISTS));
+        }
 
         // check ton tai
         Set<Long> cartIds = request.getOrderDetails().stream().map(OrderDetailRequest::getCartId)
@@ -98,14 +107,21 @@ public class OrderService implements IOrderService {
 
         attributeSizeRepository.saveAll(attributeSizes);
 
-        Double totalPrice = 0.0;
+        Double totalPrice = 30000.0;
         for (ShoppingCart shoppingCart : shoppingCarts){
             totalPrice += shoppingCart.getTotalPrice();
         }
 
+        if(promotion != null){
+            totalPrice = totalPrice - (totalPrice*(promotion.getDiscount()*1.0/100));
+        }
+
         Order order = orderMapper.toOrder(request);
         order.setUser(user);
-        order.setTotalPrice(totalPrice + 30000);
+        order.setTotalPrice(totalPrice);
+        if(promotion != null){
+            order.setPromotion(promotion);
+        }
         Order orderResult = orderRepository.save(order);
 
         List<OrderDetail> orderDetails = orderDetailService.createOrderDetail(orderDetailCreate, orderResult);
@@ -113,6 +129,12 @@ public class OrderService implements IOrderService {
 
         // xóa giỏ hàng
         shoppingCartRepository.deleteAllById(cartIds);
+        // trừ số lượng khuyến mãi
+        if(promotion != null){
+            promotion.setCount(promotion.getCount() - 1);
+            promotionRepository.save(promotion);
+        }
+
         // tạo hóa đơn
         return orderMapper.toOrderResponse(orderResult);
     }

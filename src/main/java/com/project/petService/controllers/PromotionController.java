@@ -49,7 +49,7 @@ public class PromotionController {
 
     @GetMapping("/{name}")
     public ApiResponse<PromotionResponse> getPromotionByName(
-            @RequestParam("name") String name
+            @PathVariable("name") String name
     ){
         return ApiResponse.<PromotionResponse>builder()
                 .result(promotionService.getPromotionByName(name))

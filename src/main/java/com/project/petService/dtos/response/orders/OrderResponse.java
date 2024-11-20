@@ -1,6 +1,7 @@
 package com.project.petService.dtos.response.orders;
 
 import com.project.petService.dtos.response.invoices.InvoiceResponse;
+import com.project.petService.dtos.response.promotion.PromotionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,4 +35,6 @@ public class OrderResponse {
     List<OrderDetailResponse> orderDetails;
 
     InvoiceResponse invoice;
+
+    PromotionResponse promotionResponse;
 }

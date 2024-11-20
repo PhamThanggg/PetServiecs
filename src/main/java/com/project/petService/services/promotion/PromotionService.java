@@ -44,7 +44,8 @@ public class PromotionService  {
     }
 
     public PromotionResponse getPromotionByName(String name) {
-        Promotion promotion = promotionRepository.findByName(name);
+        Promotion promotion = promotionRepository.findValidByName(name)
+                .orElseThrow(() -> new AppException(ErrorCode.PROMOTION_NOT_EXISTS));
         return promotionMapper.toPromotionResponse(promotion);
     }
 

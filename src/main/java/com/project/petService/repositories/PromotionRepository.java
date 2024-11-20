@@ -9,11 +9,22 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface PromotionRepository extends JpaRepository<Promotion, String> {
     boolean existsByName(String name);
 
-    Promotion findByName(String name);
+    @Query("SELECT p FROM Promotion p WHERE " +
+            "(p.startDate IS NULL OR p.startDate <= CURRENT_DATE) AND " +
+            "(p.endDate IS NULL OR p.endDate >= CURRENT_DATE)")
+    List<Promotion> findAllValidPromotions();
+
+    @Query("SELECT p FROM Promotion p WHERE p.name = :name AND " +
+            "(p.startDate IS NULL OR p.startDate <= CURRENT_DATE) AND " +
+            "(p.endDate IS NULL OR p.endDate >= CURRENT_DATE)")
+    Optional<Promotion> findValidByName(@Param("name") String name);
 
     @Query("SELECT pr FROM Promotion pr " +
             "WHERE :name IS NULL OR pr.name LIKE %:name% ")

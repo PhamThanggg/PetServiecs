@@ -29,9 +29,4 @@ public class Promotion {
     LocalDate startDate;
 
     LocalDate endDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
-    Order order;
-
 }
