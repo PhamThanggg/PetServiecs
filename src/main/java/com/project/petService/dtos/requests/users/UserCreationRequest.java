@@ -22,7 +22,10 @@ public class UserCreationRequest {
     private String gender;
 
     @Size(min = 10, max = 10, message = "PHONE_VALID")
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "PHONE_FORMAT")
+    @Pattern(
+            regexp = "^(\\+84|0)(3[2-9]|5[6|8|9]|7[0-9]|8[1-9]|9[0-9])[0-9]{7}$",
+            message = "PHONE_FORMAT"
+    )
     private String phone;
 
     @NotBlank(message = "EMAIL_NOT_BLANK")
@@ -37,7 +40,7 @@ public class UserCreationRequest {
     private String username;
 
     @NotBlank(message = "PASSWORD_NOT_BLANK")
-    @Size(min = 6, max = 30, message = "PASSWORD_INVALID")
+    @Size(min = 8, max = 64, message = "PASSWORD_INVALID")
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>])[A-Za-z\\d!@#$%^&*(),.?\":{}|<>]{8,64}$",
             message = "PASSWORD_FORMAT"
@@ -45,6 +48,6 @@ public class UserCreationRequest {
     private String password;
 
     @NotBlank(message = "REPASSWORD_NOT_BLANK")
-    @Size(min = 6, max = 30)
+    @Size(min = 8, max = 64)
     private String repassword;
 }

@@ -33,6 +33,8 @@ public class User extends BaseEntity {
 
     private String gender;
 
+    private Long shopStart;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",

@@ -15,7 +15,7 @@ public interface IOrderService {
 
     Page<OrderResponse> search(String name, int page, int limit);
 
-    OrderResponse updateOrder(OrderRequest request, Long id);
+    OrderResponse updateOrder(Long id);
 
     void deleteOrder(Long id);
 }

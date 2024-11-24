@@ -8,13 +8,9 @@ import com.project.petService.entities.*;
 import com.project.petService.exceptions.AppException;
 import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.OrderMapper;
-import com.project.petService.repositories.AttributeSizeRepository;
-import com.project.petService.repositories.OrderRepository;
-import com.project.petService.repositories.PromotionRepository;
-import com.project.petService.repositories.ShoppingCartRepository;
+import com.project.petService.repositories.*;
 import com.project.petService.services.user.UserService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +40,7 @@ public class OrderService implements IOrderService {
     AttributeSizeRepository attributeSizeRepository;
     ShoppingCartRepository shoppingCartRepository;
     PromotionRepository promotionRepository;
+    InvoiceRepository invoiceRepository;
 
     @Override
     @Transactional
@@ -173,10 +169,31 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGE_ORDER')")
-    public OrderResponse updateOrder(@RequestBody @Valid OrderRequest request, Long id) {
+    @PreAuthorize("hasAuthority('MANAGE_ORDER') or @securitySecurity.isOrderOwner(#id, authentication)")
+    @Transactional
+    public OrderResponse updateOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_EXISTS));
 
-        return null;
+        if(!order.getStatus().equals("CHO_XAC_NHAN")){
+            throw new RuntimeException("Không thể hủy đơn hàng khi người bán đã xác nhận");
+        }
+
+        order.setStatus("DA_HUY");
+        Order updatedOrder = orderRepository.save(order);
+
+        if(updatedOrder.getStatus().equals("DA_HUY")){
+            userService.updateShopStart(order.getUser().getId(), order.getInvoice().getPrice().longValue());
+        }
+
+        // cập nhật trạng thái hoàn tiền
+        Invoice invoice = invoiceRepository.findByOrderId(order.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_EXISTS));
+        if(invoice.getStatus().equals("DA_THANH_TOAN")){
+            invoice.setStatus("DA_HOAN_TIEN");
+        }
+        invoiceRepository.save(invoice);
+        return orderMapper.toOrderResponse(updatedOrder);
     }
 
     @Override

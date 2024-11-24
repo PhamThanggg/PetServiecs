@@ -58,7 +58,7 @@ public class ShoppingCartController {
 
     @GetMapping("/search")
     public PageResponse<List<ShoppingCartResponse>> searchShoppingCart(
-            @RequestParam(value = "name") String name,
+            @RequestParam(value = "name", required = false) String name,
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){

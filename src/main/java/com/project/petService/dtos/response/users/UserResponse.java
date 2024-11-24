@@ -21,5 +21,6 @@ public class UserResponse {
     private String dateOfBirth;
     private String email;
     private int status;
+    private Long shopStart;
     private Set<RoleResponse> roles;
 }

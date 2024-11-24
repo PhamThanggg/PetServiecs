@@ -108,7 +108,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @PostAuthorize("returnObject.id.toString() == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
+    @PreAuthorize("#id == authentication.principal.getClaimAsString('id') or hasRole('ADMIN')")
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED)
@@ -162,5 +162,13 @@ public class UserService implements IUserService {
             existingUser.setImage(userGG.getPicture());
             return userRepository.save(existingUser);
         }
+    }
+
+    public User updateShopStart(String userId, Long money){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
+        Long total = money + user.getShopStart();
+        user.setShopStart(total);
+        return userRepository.save(user);
     }
 }

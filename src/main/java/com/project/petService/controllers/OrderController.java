@@ -91,11 +91,10 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public ApiResponse<OrderResponse> updateOrderById(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid OrderRequest request
+            @PathVariable("id") Long id
     ){
         return ApiResponse.<OrderResponse>builder()
-                .result(orderService.updateOrder(request, id))
+                .result(orderService.updateOrder(id))
                 .build();
     }
 

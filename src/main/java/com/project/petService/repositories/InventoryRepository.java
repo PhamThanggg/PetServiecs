@@ -1,6 +1,7 @@
 package com.project.petService.repositories;
 
 import com.project.petService.entities.Inventory;
+import com.project.petService.entities.Invoice;
 import com.project.petService.entities.OrderDetail;
 import com.project.petService.entities.ShoppingCart;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Repository

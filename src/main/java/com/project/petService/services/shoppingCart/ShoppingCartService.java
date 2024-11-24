@@ -98,7 +98,7 @@ public class ShoppingCartService implements IShoppingCartService {
     ) {
         UserResponse userResponse = userService.getMyInfo();
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
-        return shoppingCartRepository.findByUserIdAndProductNameContaining
+        return shoppingCartRepository.findByUserIdAndProductName
                 (userResponse.getId(), name, pageable)
                 .map(shoppingCartMapper::toShoppingCartResponse);
     }
