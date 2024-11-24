@@ -2,7 +2,6 @@ package com.project.petService.services.invoices;
 
 
 import com.project.petService.dtos.requests.invoices.InvoiceRequest;
-import com.project.petService.dtos.requests.invoices.InvoiceUpdateRequest;
 import com.project.petService.dtos.response.invoices.InvoiceResponse;
 import com.project.petService.entities.AttributeSize;
 import com.project.petService.entities.Invoice;
@@ -11,13 +10,16 @@ import com.project.petService.entities.OrderDetail;
 import com.project.petService.exceptions.AppException;
 import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.InvoiceMapper;
-import com.project.petService.repositories.AttributeRepository;
 import com.project.petService.repositories.AttributeSizeRepository;
 import com.project.petService.repositories.InvoiceRepository;
 import com.project.petService.repositories.OrderRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -99,5 +101,11 @@ public class InvoiceService implements IInvoiceService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteInvoice(Long id) {
         invoiceRepository.deleteById(id);
+    }
+
+    public Page<InvoiceResponse> getSearchInvoice(int page, int limit, String payment, String status) {
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
+
+        return invoiceRepository.findByPaymentAndSTT(payment, status, pageable).map(invoiceMapper::toInvoiceResponse);
     }
 }

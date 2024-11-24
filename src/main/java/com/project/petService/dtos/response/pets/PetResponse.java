@@ -1,5 +1,6 @@
 package com.project.petService.dtos.response.pets;
 
+import com.project.petService.entities.PetType;
 import lombok.*;
 
 @Getter
@@ -18,5 +19,5 @@ public class PetResponse {
 
     String color;
 
-    Long petTypeId;
+    PetType petType;
 }

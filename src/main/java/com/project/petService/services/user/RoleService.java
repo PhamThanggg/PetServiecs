@@ -12,6 +12,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +64,11 @@ public class RoleService {
     @PreAuthorize("hasAuthority('MANAGE_ROLE')")
     public void delete(Long id) {
         roleRepository.deleteById(id);
+    }
+
+    public Page<RoleResponse> getAllRole(int page, int limit, String name) {
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
+
+        return roleRepository.findRoleName(name, pageable).map(roleMapper::toRoleResponse);
     }
 }

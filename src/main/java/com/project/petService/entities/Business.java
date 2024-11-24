@@ -36,7 +36,7 @@ public class Business extends BaseEntity{
     @ManyToMany(fetch = FetchType.LAZY)
     Set<BusinessType> businessType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "areaId")
     Area area;
 }

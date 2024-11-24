@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class BusinessResponse {
+    Long id;
     String name;
 
     String address;

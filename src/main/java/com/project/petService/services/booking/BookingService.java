@@ -14,6 +14,10 @@ import com.project.petService.repositories.ServiceRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -70,5 +74,11 @@ public class BookingService implements IBookingService {
     @Override
     public void deleteBooking(Long id) {
         bookingRepository.deleteById(id);
+    }
+
+    public Page<BookingResponse> getSearchBooking(int page, int limit, String name) {
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
+
+        return bookingRepository.findByName(name, pageable).map(bookingMapper::toBookingResponse);
     }
 }

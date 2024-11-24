@@ -11,7 +11,6 @@ import org.mapstruct.MappingTarget;
 public interface PetsMapper {
     Pet toPet(PetRequest request);
 
-    @Mapping(source = "petType.id", target = "petTypeId")
     PetResponse toPetResponse(Pet pet);
 
     void updatePet(@MappingTarget Pet pet, PetRequest request);

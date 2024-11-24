@@ -20,11 +20,11 @@ public class Room {
 
     int count;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "roomTypeId")
     RoomType roomType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "businessId")
     Business business;
 }

@@ -1,5 +1,7 @@
 package com.project.petService.dtos.response.room;
 
+import com.project.petService.entities.Business;
+import com.project.petService.entities.RoomType;
 import lombok.*;
 
 @Getter
@@ -14,7 +16,7 @@ public class RoomResponse {
 
     int count;
 
-    Long roomTypeId;
+    RoomType roomType;
 
-    Long businessId;
+    Business business;
 }

@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 public interface BookingMapper {
     Booking toBooking(BookingRequest request);
 
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "room.id", target = "roomId")
-    @Mapping(source = "pet.id", target = "petId")
     @Mapping(target = "servicesId", expression = "java(mapServiceTypeIds(booking.getServices()))")
     BookingResponse toBookingResponse(Booking booking);
 

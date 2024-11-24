@@ -11,8 +11,6 @@ import org.mapstruct.MappingTarget;
 public interface RoomMapper {
     Room toRoom(RoomRequest request);
 
-    @Mapping(source = "roomType.id", target = "roomTypeId")
-    @Mapping(source = "business.id", target = "businessId")
     RoomResponse toRoomResponse(Room room);
 
     void updateRoom(@MappingTarget Room room, RoomRequest request);

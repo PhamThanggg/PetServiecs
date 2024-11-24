@@ -14,7 +14,7 @@ public class PetType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "petTypeId")
-    Long Id;
+    Long id;
 
     String name;
 

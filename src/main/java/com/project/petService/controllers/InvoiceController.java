@@ -1,14 +1,15 @@
 package com.project.petService.controllers;
 
 import com.project.petService.dtos.requests.invoices.InvoiceRequest;
-import com.project.petService.dtos.requests.invoices.InvoiceUpdateRequest;
 import com.project.petService.dtos.response.ApiResponse;
+import com.project.petService.dtos.response.PageResponse;
 import com.project.petService.dtos.response.invoices.InvoiceResponse;
 import com.project.petService.services.invoices.InvoiceService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,21 @@ public class InvoiceController {
     ){
         return ApiResponse.<List<InvoiceResponse>>builder()
                 .result(invoiceService.getInvoiceALl())
+                .build();
+    }
+
+    @GetMapping("/search")
+    public PageResponse<List<InvoiceResponse>> searchAll(@RequestParam("page") int page,
+                                                         @RequestParam(name = "payment", required = false) String payment,
+                                                         @RequestParam(name = "status", required = false) String status,
+                                                         @RequestParam("limit") int limit) {
+        Page<InvoiceResponse> invoiceResponses = invoiceService.getSearchInvoice(page, limit, payment, status);
+        return PageResponse.<List<InvoiceResponse>>builder()
+                .currentPage(invoiceResponses.getNumber())
+                .totalPages(invoiceResponses.getTotalPages())
+                .totalElements(invoiceResponses.getTotalElements())
+                .pageSize(invoiceResponses.getSize())
+                .result(invoiceResponses.getContent())
                 .build();
     }
 

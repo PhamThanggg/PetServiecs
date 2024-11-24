@@ -1,5 +1,8 @@
 package com.project.petService.dtos.response.booking;
 
+import com.project.petService.entities.Pet;
+import com.project.petService.entities.Room;
+import com.project.petService.entities.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,11 +18,12 @@ public class BookingResponse {
     String status;
     LocalDateTime startTime;
     LocalDateTime endTime;
-    String roomId;
 
-    String petId;
+    Room room;
+
+    Pet pet;
 
     Set<Long> servicesId;
 
-    String userId;
+    User user;
 }

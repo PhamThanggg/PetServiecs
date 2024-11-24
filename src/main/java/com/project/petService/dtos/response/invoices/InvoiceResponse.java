@@ -1,6 +1,5 @@
 package com.project.petService.dtos.response.invoices;
 
-import com.project.petService.dtos.response.orders.OrderResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;

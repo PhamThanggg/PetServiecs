@@ -56,6 +56,15 @@ public class PromotionController {
                 .build();
     }
 
+    @GetMapping("get/{id}")
+    public ApiResponse<PromotionResponse> getPromotionById(
+            @PathVariable("id") String name
+    ){
+        return ApiResponse.<PromotionResponse>builder()
+                .result(promotionService.getPromotionById(name))
+                .build();
+    }
+
     @PutMapping("/{id}")
     public ApiResponse<PromotionResponse> updatePromotionById(
             @PathVariable("id") String id,

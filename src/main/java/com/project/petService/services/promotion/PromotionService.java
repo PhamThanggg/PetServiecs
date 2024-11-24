@@ -49,6 +49,12 @@ public class PromotionService  {
         return promotionMapper.toPromotionResponse(promotion);
     }
 
+    public PromotionResponse getPromotionById(String name) {
+        Promotion promotion = promotionRepository.findById(name)
+                .orElseThrow(() -> new AppException(ErrorCode.PROMOTION_NOT_EXISTS));
+        return promotionMapper.toPromotionResponse(promotion);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     public PromotionResponse updatePromotion(PromotionRequest request, String id) {
         Promotion promotion = promotionRepository.findById(id)

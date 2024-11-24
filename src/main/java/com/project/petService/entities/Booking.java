@@ -25,18 +25,18 @@ public class Booking extends BaseEntity{
 
     LocalDateTime endTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "roomId")
     Room room;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "petId")
     Pet pet;
 
     @ManyToMany
     Set<Services> services;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "userId")
     User user;
 }

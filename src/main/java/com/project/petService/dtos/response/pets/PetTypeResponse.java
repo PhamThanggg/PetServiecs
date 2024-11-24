@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PetTypeResponse {
-    Long Id;
+    Long id;
 
     String name;
 

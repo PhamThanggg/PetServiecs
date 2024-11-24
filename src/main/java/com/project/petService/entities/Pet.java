@@ -24,7 +24,7 @@ public class Pet {
 
     String color;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "petTypeId")
     PetType petType;
 }

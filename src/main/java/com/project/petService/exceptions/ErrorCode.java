@@ -22,6 +22,7 @@ public enum ErrorCode {
 
 
     ROOM_NOT_EXITS(1008, "Phòng không tồn tại", HttpStatus.BAD_REQUEST),
+    ROOM_TYPE_NOT_EXITS(1008, "Loại phòng không tồn tại", HttpStatus.BAD_REQUEST),
 
 
     // Dùng chung all
@@ -207,6 +208,9 @@ public enum ErrorCode {
     PROMOTION_EXISTS(2602, "Tên khuyến mãi đã tồn tại." ,HttpStatus.BAD_REQUEST),
     PROMOTION_NOT_EXISTS(2602, "Khuyến mãi không tồn tại", HttpStatus.BAD_REQUEST),
     //=================== PROMOTION END =======================
+
+    SERVICE_NOT_EXISTS(2602, "Dịch vụ không tồn tại", HttpStatus.BAD_REQUEST),
+    PET_NOT_EXISTS(2602, "Thú cưng không tồn tại", HttpStatus.BAD_REQUEST),
     ;
 
 
