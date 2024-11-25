@@ -18,6 +18,8 @@ public class BookingResponse {
     String status;
     LocalDateTime startTime;
     LocalDateTime endTime;
+    String namePet;
+    String agePet;
 
     Room room;
 

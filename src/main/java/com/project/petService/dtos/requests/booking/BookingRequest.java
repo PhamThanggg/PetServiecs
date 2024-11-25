@@ -15,8 +15,14 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class BookingRequest {
-    @NotNull(message = "Tên kinh doanh không được để trống")
+    @NotNull(message = "Trạng thái không được để trống")
     String status;
+
+    @NotNull(message = "Tên thú cưng không được để trống")
+    String namePet;
+
+    @NotNull(message = "Tuổi thú cưng không được để trống")
+    String agePet;
 
     @NotNull(message = "Thời gian không được để trống")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

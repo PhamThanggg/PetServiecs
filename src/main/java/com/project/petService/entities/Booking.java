@@ -21,6 +21,9 @@ public class Booking extends BaseEntity{
 
     String status;
 
+    String namePet;
+    String agePet;
+
     LocalDateTime startTime;
 
     LocalDateTime endTime;
@@ -28,10 +31,6 @@ public class Booking extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "roomId")
     Room room;
-
-    @ManyToOne
-    @JoinColumn(name = "petId")
-    Pet pet;
 
     @ManyToMany
     Set<Services> services;
