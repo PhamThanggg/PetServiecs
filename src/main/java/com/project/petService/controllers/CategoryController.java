@@ -19,7 +19,7 @@ import java.util.List;
 public class CategoryController {
     CategoryService categoryService;
 
-    @PostMapping("")
+    @PostMapping
     public ApiResponse<CategoryResponse> create(
             @RequestBody @Valid CategoryRequest request
     ){
@@ -29,7 +29,7 @@ public class CategoryController {
                 .build();
     }
 
-    @GetMapping("")
+    @GetMapping
     public ApiResponse<List<CategoryResponse>> getAllCategory(
     ){
         return ApiResponse.<List<CategoryResponse>>builder()
