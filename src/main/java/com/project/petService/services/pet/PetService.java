@@ -3,9 +3,11 @@ package com.project.petService.services.pet;
 import com.project.petService.dtos.requests.pets.PetRequest;
 import com.project.petService.dtos.response.pets.PetResponse;
 import com.project.petService.entities.Pet;
+import com.project.petService.entities.PetType;
 import com.project.petService.exceptions.AppException;
 import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.PetsMapper;
+import com.project.petService.repositories.PetTypeRepository;
 import com.project.petService.repositories.PetsRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +26,15 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PetService implements IPetService {
     PetsRepository petRepository;
+    PetTypeRepository petTypeRepository;
     PetsMapper petMapper;
 
     @Override
     public PetResponse createPet(PetRequest request) {
         Pet pet = petMapper.toPet(request);
+        PetType petType = petTypeRepository.findById(request.getPetTypeId())
+                .orElseThrow(() -> new AppException(ErrorCode.PET_TYPE_NOT_EXISTS));
+        pet.setPetType(petType);
         return petMapper.toPetResponse(petRepository.save(pet));
     }
 

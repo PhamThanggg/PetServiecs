@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    @Query("SELECT p FROM Booking p WHERE (:name IS NULL OR p.user.fullName LIKE %:name%)")
+    @Query("SELECT p FROM Booking p WHERE (:name IS NULL OR p.name LIKE %:name%)")
     Page<Booking> findByName(String name, Pageable pageable);
 }

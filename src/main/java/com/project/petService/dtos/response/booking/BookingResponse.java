@@ -18,12 +18,14 @@ public class BookingResponse {
     String status;
     LocalDateTime startTime;
     LocalDateTime endTime;
+    String namePet;
+    String agePet;
+    String name;
+    String phone;
 
     Room room;
 
     Pet pet;
 
     Set<Long> servicesId;
-
-    User user;
 }

@@ -35,9 +35,15 @@ public class ServiceController {
     }
 
     @GetMapping("/get")
-    public ApiResponse<ServiceResponse> getById(Long id) {
+    public ApiResponse<ServiceResponse> getById(@RequestParam Long id) {
         return ApiResponse.<ServiceResponse>builder()
                 .result(serService.getById(id)).build();
+    }
+
+    @GetMapping("/businessId")
+    public ApiResponse<List<ServiceResponse>> getByBusinessId(@RequestParam Long id) {
+        return ApiResponse.<List<ServiceResponse>>builder()
+                .result(serService.getByBusinessId(id)).build();
     }
 
     @GetMapping("/search")

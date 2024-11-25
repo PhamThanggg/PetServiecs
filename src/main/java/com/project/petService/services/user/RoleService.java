@@ -51,12 +51,19 @@ public class RoleService {
         return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
     }
 
+    public RoleResponse getById(Long id) {
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
+        return roleMapper.toRoleResponse(role);
+    }
+
     @PreAuthorize("hasAuthority('MANAGE_ROLE')")
     public RoleResponse update(Long id, RoleRequest request) {
         Role role = roleRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.ROLE_NOT_EXISTS)
         );
-
+        var permissions = permissionRepository.findAllById(request.getPermissionIds());
+        role.setPermissions(new HashSet<>(permissions));
         roleMapper.updateRole(role, request);
         return roleMapper.toRoleResponse(roleRepository.save(role));
     }

@@ -18,4 +18,6 @@ public class Services {
 
     String name;
 
+    @ManyToOne
+    Business business;
 }

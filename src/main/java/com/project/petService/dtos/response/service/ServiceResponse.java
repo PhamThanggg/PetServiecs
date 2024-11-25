@@ -1,5 +1,6 @@
 package com.project.petService.dtos.response.service;
 
+import com.project.petService.entities.Business;
 import lombok.*;
 
 @Getter
@@ -12,4 +13,5 @@ public class ServiceResponse {
 
     String name;
 
+    Business business;
 }
