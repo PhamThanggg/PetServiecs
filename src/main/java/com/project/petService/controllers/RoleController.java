@@ -50,6 +50,15 @@ public class RoleController {
                 .build();
     }
 
+    @GetMapping("get/{id}")
+    ApiResponse<RoleResponse> getById(
+            @PathVariable("id") Long id
+    ) {
+        return ApiResponse.<RoleResponse>builder()
+                .result(roleService.getById(id))
+                .build();
+    }
+
     @PutMapping("/{id}")
     ApiResponse<RoleResponse> update(
             @RequestBody RoleRequest request,

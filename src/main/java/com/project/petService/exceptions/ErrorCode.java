@@ -211,6 +211,7 @@ public enum ErrorCode {
 
     SERVICE_NOT_EXISTS(2602, "Dịch vụ không tồn tại", HttpStatus.BAD_REQUEST),
     PET_NOT_EXISTS(2602, "Thú cưng không tồn tại", HttpStatus.BAD_REQUEST),
+    PET_TYPE_NOT_EXISTS(2602, "Giống loài thú cưng không tồn tại", HttpStatus.BAD_REQUEST),
     ;
 
 
