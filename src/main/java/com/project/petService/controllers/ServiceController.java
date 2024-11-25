@@ -35,7 +35,7 @@ public class ServiceController {
     }
 
     @GetMapping("/get")
-    public ApiResponse<ServiceResponse> getById(Long id) {
+    public ApiResponse<ServiceResponse> getById(@RequestParam Long id) {
         return ApiResponse.<ServiceResponse>builder()
                 .result(serService.getById(id)).build();
     }
