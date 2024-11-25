@@ -18,4 +18,5 @@ public class Services {
 
     String name;
 
+    Long businessId;
 }

@@ -32,18 +32,20 @@ public class BookingRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime endTime;
 
-    @NotNull(message = "Bạn chưa chọn phòng")
-    @Min(value = 1, message = "ID phòng phải >= 1")
-    Long roomId;
-
-    @NotNull(message = "Bạn chưa chọn pet")
-    @Min(value = 1, message = "ID pet phải >= 1")
-    Long petId;
+//    @NotNull(message = "Bạn chưa chọn phòng")
+//    @Min(value = 1, message = "ID phòng phải >= 1")
+//    Long roomId;
+//
+//    @NotNull(message = "Bạn chưa chọn pet")
+//    @Min(value = 1, message = "ID pet phải >= 1")
+//    Long petId;
 
     @NotEmpty(message = "Bạn chưa chọn dịch vụ")
     Set<Long> servicesId;
 
-    @NotNull(message = "Bạn chưa chọn người dùng")
-    @Min(value = 0, message = "ID người dùng phải >= 1")
-    Long userId;
+    @NotNull(message = "Tên người đặt không được để trống")
+    String name;
+
+    @NotNull(message = "Số điện thoại không được để trống")
+    String phone;
 }

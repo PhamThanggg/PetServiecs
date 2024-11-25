@@ -36,8 +36,8 @@ public class BookingService implements IBookingService {
 
     @Override
     public BookingResponse createBooking(BookingRequest request) {
-        Room room = roomRepository.findById(request.getRoomId())
-                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_EXITS));
+//        Room room = roomRepository.findById(request.getRoomId())
+//                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_EXITS));
 
         Set<Services> liServices = serviceRepository.findByIdIn(request.getServicesId());
         Set<Long> foundIds = liServices.stream().map(Services::getId).collect(Collectors.toSet());
@@ -52,7 +52,7 @@ public class BookingService implements IBookingService {
 
         Booking booking = bookingMapper.toBooking(request);
         booking.setServices(liServices);
-        booking.setRoom(room);
+//        booking.setRoom(room);
 
         return bookingMapper.toBookingResponse(bookingRepository.save(booking));
     }

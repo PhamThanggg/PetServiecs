@@ -43,6 +43,10 @@ public class SerService implements IService {
         return serviceMapper.toServiceResponse(services);
     }
 
+    public List<ServiceResponse> getByBusinessId(Long id) {
+        return serviceRepository.findByBusinessId(id).stream().map(serviceMapper::toServiceResponse).toList();
+    }
+
     @Override
     @PreAuthorize("hasAuthority('MANAGE_SERVICE')")
     public ServiceResponse update(ServiceRequest request, Long id) {

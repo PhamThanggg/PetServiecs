@@ -40,6 +40,12 @@ public class ServiceController {
                 .result(serService.getById(id)).build();
     }
 
+    @GetMapping("/businessId")
+    public ApiResponse<List<ServiceResponse>> getByBusinessId(@RequestParam Long id) {
+        return ApiResponse.<List<ServiceResponse>>builder()
+                .result(serService.getByBusinessId(id)).build();
+    }
+
     @GetMapping("/search")
     public PageResponse<List<ServiceResponse>> searchAll(@RequestParam("page") int page,
                                                      @RequestParam(name = "name", required = false) String name,

@@ -12,4 +12,5 @@ public class ServiceRequest {
     @NotNull(message = "Tên dịch vụ không được để trống")
     String name;
 
+    Long businessId;
 }

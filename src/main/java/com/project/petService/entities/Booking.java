@@ -23,6 +23,8 @@ public class Booking extends BaseEntity{
 
     String namePet;
     String agePet;
+    String name;
+    String phone;
 
     LocalDateTime startTime;
 
@@ -34,8 +36,4 @@ public class Booking extends BaseEntity{
 
     @ManyToMany
     Set<Services> services;
-
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    User user;
 }
