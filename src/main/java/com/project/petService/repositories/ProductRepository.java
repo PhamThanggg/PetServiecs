@@ -17,10 +17,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE " +
             "(:name IS NULL OR :name = '' OR p.name LIKE %:name%) AND " +
             "(:subCategoryId IS NULL OR p.subCategory.id = :subCategoryId) AND " +
+            "(:status IS NULL OR :status = '' OR p.status = :status) AND " +
             "((:minPrice IS NULL OR p.price >= :minPrice) AND (:maxPrice IS NULL OR p.price <= :maxPrice))")
     Page<Product> findProductOrCategoryOrPrice(@Param("name") String name,
                                  @Param("subCategoryId") Long subCategoryId,
                                  @Param("minPrice") Double minPrice,
-                                 @Param("maxPrice")  Double maxPrice,
+                                 @Param("maxPrice")  Double maxPrice, @Param("status")  String status,
                                  Pageable pageable);
 }

@@ -37,38 +37,22 @@ public class AttributeSizeService {
     AttributeSizeMapper attributeSizeMapper;
 
     @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
-    public List<AttributeSize> createAttributeSize(Set<AttributeSizeRequest> request, Long attributeId) {
-        Attribute attribute = attributeRepository.findById(attributeId)
+    public AttributeSizeResponse createAttributeSize(AttributeSizeRequest request) {
+        Attribute attribute = attributeRepository.findById(request.getAttributeId())
                 .orElseThrow(() -> new AppException(ErrorCode.ATTRIBUTE_NOT_EXISTS));
 
-        Set<Long> ids = request.stream()
-                .map(AttributeSizeRequest::getSizeId).collect(Collectors.toSet());
-        Set<Size> sizes = sizeRepository.findByIdIn(ids);
-        Set<Long> foundIds = sizes.stream().map(Size::getId).collect(Collectors.toSet());
+        Size size = sizeRepository.findById(request.getSizeId())
+                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_EXISTS));
 
-        List<Long> missingSizeId = ids.stream()
-                .filter(id -> !foundIds.contains(id)).toList();
-        if(!missingSizeId.isEmpty()){
-            String errorMessage = missingSizeId.stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(", "));
-
-            throw new RuntimeException(errorMessage);
+        if(attributeSizeRepository.existsByAttributeIdAndSizeId(request.getAttributeId(), request.getSizeId())){
+            throw new AppException(ErrorCode.PRODUCT_SIZE_EXISTS);
         }
 
-        Iterator<Size> sizeIterator = sizes.iterator();
-        Set<AttributeSize> attributeSizes = new HashSet<>();
-        for(AttributeSizeRequest attributeSize : request){
-          AttributeSize res = attributeSizeMapper.toAttributeSize(attributeSize);
-          res.setAttribute(attribute);
-          res.setQuantitySold(0);
-          if (sizeIterator.hasNext()) {
-              res.setSize(sizeIterator.next());
-          }
-          attributeSizes.add(res);
-        }
+        AttributeSize attributeSizes = attributeSizeMapper.toAttributeSize(request);
+        attributeSizes.setAttribute(attribute);
+        attributeSizes.setSize(size);
 
-        return attributeSizeRepository.saveAll(attributeSizes);
+        return attributeSizeMapper.toAttributeSizeResponse(attributeSizeRepository.save(attributeSizes));
     }
 
     @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")
@@ -76,16 +60,15 @@ public class AttributeSizeService {
         AttributeSize attributeSize = attributeSizeRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.ATTRIBUTE_NOT_EXISTS));
 
-        Attribute attribute = attributeRepository.findById(attributeSize.getAttribute().getId())
-                .orElseThrow(() -> new AppException(ErrorCode.ATTRIBUTE_NOT_EXISTS));
+        if(attributeSize.getSize().getId() != request.getSizeId()){{
+            Size size = sizeRepository.findById(request.getSizeId())
+                    .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_EXISTS));
+            if(attributeSizeRepository.existsByAttributeIdAndSizeId(request.getAttributeId(), request.getSizeId())){
+                throw new AppException(ErrorCode.PRODUCT_SIZE_EXISTS);
+            }
+            attributeSize.setSize(size);
+        }}
 
-        Size size = sizeRepository.findById(request.getSizeId())
-                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_EXISTS));
-
-        attributeSizeMapper.updateAttributeSize(attributeSize, request);
-        attributeSize.setAttribute(attribute);
-        attributeSize.setSize(size);
-        attributeSize.setQuantitySold(0);
         return attributeSizeMapper.toAttributeSizeResponse(attributeSizeRepository.save(attributeSize));
     }
 

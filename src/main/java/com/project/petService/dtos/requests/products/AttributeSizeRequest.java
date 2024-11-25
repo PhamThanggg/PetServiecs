@@ -13,4 +13,6 @@ public class AttributeSizeRequest {
     int quantity;
 
     Long sizeId;
+
+    Long attributeId;
 }

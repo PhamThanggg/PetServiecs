@@ -119,6 +119,7 @@ public enum ErrorCode {
     BRAND_INVALID(1108, "Thương hiệu phải nằm trong khoảng từ {min} đến {max} ký tự.", HttpStatus.BAD_REQUEST),
     PRODUCT_NOT_ENOUGH(1109, "Sản phẩm bạn chọn tạm hết hàng hoặc không đủ số lượng", HttpStatus.BAD_REQUEST),
 
+    PRODUCT_SIZE_EXISTS(1151, "Size của sản phẩm đã tồn tại", HttpStatus.BAD_REQUEST),
     PRODUCT_EXISTS(1151, "Tên sản phẩm đã tồn tại", HttpStatus.BAD_REQUEST),
     PRODUCT_NOT_EXISTS(1151, "Sản phẩm bạn chọn không tồn tại", HttpStatus.BAD_REQUEST),
         //=================== PRODUCT END =======================
@@ -170,19 +171,19 @@ public enum ErrorCode {
     //=================== ORDER_DETAIL END =======================
 
     //=================== ATTRIBUTE BEGIN =====================
-    ATTRIBUTE_NOT_BLANK(2501, "Thuộc tính sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
-    ATTRIBUTE_INVALID(2502, "ID thuộc tính phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_NOT_BLANK(2501, "Biến thể của sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_INVALID(2502, "ID biến thể phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
 
-    ATTRIBUTE_EXISTS(2602, "Tên thuộc tính đã tồn tại", HttpStatus.BAD_REQUEST),
-    ATTRIBUTE_NOT_EXISTS(2602, "Thuộc tính không tồn tại", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_EXISTS(2602, "Tên biến thể đã tồn tại", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_NOT_EXISTS(2602, "Biến thể không tồn tại", HttpStatus.BAD_REQUEST),
     //=================== ATTRIBUTE END =======================
 
     //=================== ATTRIBUTE_TYPE BEGIN =====================
-    ATTRIBUTE_TYPE_NOT_BLANK(2501, "Loại thuộc tính sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
-    ATTRIBUTE_TYPE_INVALID(2502, "ID loại thuộc tính phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_TYPE_NOT_BLANK(2501, "Loại biến thể sản phẩm là bắt buộc", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_TYPE_INVALID(2502, "ID loại biến thể phải lớn hơn {value}", HttpStatus.BAD_REQUEST),
 
-    ATTRIBUTE_TYPE_EXISTS(2602, "Tên loại thuộc tính đã tồn tại", HttpStatus.BAD_REQUEST),
-    ATTRIBUTE_TYPE_NOT_EXISTS(2602, "Loại thuộc tính không tồn tại", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_TYPE_EXISTS(2602, "Tên loại biến thể đã tồn tại", HttpStatus.BAD_REQUEST),
+    ATTRIBUTE_TYPE_NOT_EXISTS(2602, "Loại biến thể không tồn tại", HttpStatus.BAD_REQUEST),
     //=================== ATTRIBUTE_TYPE END =======================
 
     //=================== SIZE BEGIN =====================

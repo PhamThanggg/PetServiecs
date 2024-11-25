@@ -71,11 +71,12 @@ public class ProductController {
             @RequestParam(value = "categoryId", required = false) Long categoryId,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+            @RequestParam(value = "status", required = false) String status,
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ){
         Page<ProductResponse> productResponse = productService
-                .searchProductOrCategoryOrPrice(nameProduct, categoryId, minPrice, maxPrice,  page, limit);
+                .searchProductOrCategoryOrPrice(nameProduct, categoryId, minPrice, maxPrice, status,  page, limit);
 
         return PageResponse.<List<ProductResponse>>builder()
                 .currentPage(productResponse.getNumber())

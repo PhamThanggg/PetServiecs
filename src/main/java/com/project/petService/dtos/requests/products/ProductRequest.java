@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 public class ProductRequest {
     @NotBlank(message = "NAME_NOT_BLANK")
-    @Size(min = 2,max = 30, message = "NAME_VALID")
+    @Size(min = 2,max = 100, message = "NAME_VALID")
     String name;
 
     @Size(min = 2, max = 1000, message = " DESCRIPTION_INVALID")

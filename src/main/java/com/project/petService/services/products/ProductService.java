@@ -77,10 +77,11 @@ public class ProductService implements IProductService {
     public Page<ProductResponse> searchProductOrCategoryOrPrice(
             String name, Long categoryId,
             Double minPrice, Double maxPrice,
+            String status,
             int page, int limit
     ) {
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "id"));
-        return productRepository.findProductOrCategoryOrPrice(name, categoryId, minPrice, maxPrice, pageable).map(productMapper::toProductResponse);
+        return productRepository.findProductOrCategoryOrPrice(name, categoryId, minPrice, maxPrice, status,     pageable).map(productMapper::toProductResponse);
     }
 
     @Override

@@ -31,9 +31,10 @@ public class AttributeController {
 
     @GetMapping("")
     public ApiResponse<List<AttributeResponse>> getAllAttribute(
+            @RequestParam("productId") Long productId
     ){
         return ApiResponse.<List<AttributeResponse>>builder()
-                .result(attributeService.getAttributeALl())
+                .result(attributeService.getAttributeALl(productId))
                 .build();
     }
 

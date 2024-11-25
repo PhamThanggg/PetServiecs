@@ -18,4 +18,6 @@ public interface AttributeSizeRepository extends JpaRepository<AttributeSize, Lo
     Optional<AttributeSize> findBySizeWithProductId(Long id, Long productId);
 
     Set<AttributeSize> findByIdIn(Set<Long> ids);
+
+    boolean existsByAttributeIdAndSizeId(Long attributeId, Long sizeId);
 }

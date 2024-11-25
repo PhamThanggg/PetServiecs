@@ -49,13 +49,11 @@ public class AttributeService {
         attribute.setAttributeType(attributeType);
         attributeRepository.save(attribute);
 
-        List<AttributeSize> attributeSizes = attributeSizeService.createAttributeSize(request.getAttributeSizes(), attribute.getId());
-        attribute.setAttributeSize(attributeSizes);
         return attributeMapper.toAttributeResponse(attribute);
     }
 
-    public List<AttributeResponse> getAttributeALl() {
-        return attributeRepository.findAll().stream().map(attributeMapper::toAttributeResponse).toList();
+    public List<AttributeResponse> getAttributeALl(Long productId) {
+        return attributeRepository.findByProductId(productId).stream().map(attributeMapper::toAttributeResponse).toList();
     }
 
     @PreAuthorize("hasAuthority('MANAGE_PRODUCT')")

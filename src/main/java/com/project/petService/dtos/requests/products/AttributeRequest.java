@@ -18,6 +18,4 @@ public class AttributeRequest {
     Long productId;
 
     Long attributeTypeId;
-
-    Set<AttributeSizeRequest> attributeSizes;
 }
