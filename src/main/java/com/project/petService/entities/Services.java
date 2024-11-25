@@ -18,5 +18,6 @@ public class Services {
 
     String name;
 
-    Long businessId;
+    @ManyToOne
+    Business business;
 }

@@ -2,10 +2,12 @@ package com.project.petService.services.service;
 
 import com.project.petService.dtos.requests.service.ServiceRequest;
 import com.project.petService.dtos.response.service.ServiceResponse;
+import com.project.petService.entities.Business;
 import com.project.petService.entities.Services;
 import com.project.petService.exceptions.AppException;
 import com.project.petService.exceptions.ErrorCode;
 import com.project.petService.mappers.ServiceMapper;
+import com.project.petService.repositories.BusinessRepository;
 import com.project.petService.repositories.ServiceRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +26,16 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SerService implements IService {
     ServiceRepository serviceRepository;
+    BusinessRepository businessRepository;
     ServiceMapper serviceMapper;
 
     @Override
     @PreAuthorize("hasAuthority('MANAGE_SERVICE')")
     public ServiceResponse create(ServiceRequest request) {
         Services services = serviceMapper.toService(request);
+        Business business = businessRepository.findById(request.getBusinessId())
+                .orElseThrow(() -> new AppException(ErrorCode.BUSINESS_NOT_EXISTS));
+        services.setBusiness(business);
         return serviceMapper.toServiceResponse(serviceRepository.save(services));
     }
 

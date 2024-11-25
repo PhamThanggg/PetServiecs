@@ -21,6 +21,6 @@ public interface ServiceRepository extends JpaRepository<Services, Long> {
     Page<Services> findByName(@Param("name") String name, Pageable pageable);
 
     @Query("SELECT p FROM Services p WHERE " +
-            "(:id IS NULL OR p.businessId = :id)")
+            "(:id IS NULL OR p.business.id = :id)")
     List<Services> findByBusinessId(Long id);
 }
